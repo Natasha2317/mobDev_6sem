@@ -1,9 +1,13 @@
 package com.example.currencyconverter.data
 
+import com.example.currencyconverter.data.api.RetrofitInstance
 import com.example.currencyconverter.models.CurrencyResponse
+import retrofit2.Response
 
-interface RemoteDataSource {
+class RemoteDataSource {
 
-    suspend fun getRetrofitCurrencyList(): CurrencyResponse
+    suspend fun getRetrofitCurrencyList(): Response<CurrencyResponse> {
+        return RetrofitInstance.service.getCurrencyList()
+    }
 
 }

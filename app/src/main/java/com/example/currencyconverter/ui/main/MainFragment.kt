@@ -34,10 +34,9 @@ class MainFragment : Fragment() {
             binding.success.text = currencyResponse.success.toString()
             binding.timestamp.text = currencyResponse.timestamp.toString()
             binding.base.text = currencyResponse.base
-            binding.date.text = currencyResponse.date.toString()
+            binding.date.text = currencyResponse.date
             binding.rates.text = currencyResponse.rates.toString()
         }
-
 
     }
 
