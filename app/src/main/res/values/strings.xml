@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">CurrencyConverter</string>
+    <string name="gender">Гендер</string>
+    <string name="description">Валюта</string>
+    <string name="date">Дата</string>
+    <string name="name">Имя</string>
 </resources>
+
+

@@ -2,19 +2,26 @@ package com.example.currencyconverter
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.currencyconverter.databinding.MainActivityBinding
 import com.example.currencyconverter.ui.main.MainFragment
 
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: MainActivityBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_activity)
+        binding = MainActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MainFragment.newInstance())
+                .add(R.id.container, MainFragment.newInstance())
                 .commitNow()
         }
+
+    }
+
+
 
 //        val interceptor = HttpLoggingInterceptor()
 //        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -32,5 +39,5 @@ class MainActivity : AppCompatActivity() {
 //            val currencies = service.getCurrencies()
 //            Log.d("MY_TAG", "$currencies")
 //        }
-    }
+
 }

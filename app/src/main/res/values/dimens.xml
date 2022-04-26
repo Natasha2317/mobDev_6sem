@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="header_size">20sp</dimen>
+    <dimen name="main_padding">8dp</dimen>
+    <dimen name="padding_item">11dp</dimen>
+    <dimen name="like_size">24dp</dimen>
+    <dimen name="main_text">18sp</dimen>
+    <dimen name="gender_size">16sp</dimen>
+    <dimen name="margin_top_item">18dp</dimen>
+    <dimen name="margin_currency_name">25dp</dimen>
+    <dimen name="margin_currency_value">40dp</dimen>
+    <dimen name="margin_currency_edit_value">50dp</dimen>
+</resources>

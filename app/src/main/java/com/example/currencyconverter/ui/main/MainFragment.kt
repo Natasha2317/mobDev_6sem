@@ -1,43 +1,73 @@
 package com.example.currencyconverter.ui.main
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.currencyconverter.databinding.MainFragmentBinding
+
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.example.currencyconverter.DependencyInjection
+import com.example.currencyconverter.R
+import com.example.currencyconverter.adapter.CurrencyActionListener
+import com.example.currencyconverter.adapter.CurrencyAdapter
+import com.example.currencyconverter.databinding.FragmentListBinding
+import com.example.currencyconverter.databinding.FragmentMainBinding
+import com.example.currencyconverter.models.Currency
+
+import com.example.currencyconverter.repository.CurrencyRepository
+import com.example.currencyconverter.viewmodels.MainViewModel
+import com.example.currencyconverter.viewmodels.MainViewModelFactory
+import com.google.android.material.tabs.TabLayout
+
 
 class MainFragment : Fragment() {
 
     companion object {
+        @JvmStatic
         fun newInstance() = MainFragment()
     }
-    private lateinit var binding: MainFragmentBinding
-    private lateinit var viewModel: MainViewModel
+    private lateinit var binding: FragmentMainBinding
 
+    var fragmentsList = listOf(
+        ListFragment.newInstance(),
+        HistoryFragment.newInstance(),
+        AnalyticsFragment.newInstance()
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        viewModel.init()
-    }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = MainFragmentBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.data.observe(viewLifecycleOwner){currencyResponse ->
-            binding.success.text = currencyResponse.success.toString()
-            binding.timestamp.text = currencyResponse.timestamp.toString()
-            binding.base.text = currencyResponse.base
-            binding.date.text = currencyResponse.date
-            binding.rates.text = currencyResponse.rates.toString()
+        if (savedInstanceState == null) {
+            childFragmentManager.beginTransaction()
+                .add(R.id.container_fragment, ListFragment.newInstance())
+                .commitNow()
         }
 
     }
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = FragmentMainBinding.inflate(inflater, container, false)
+
+        binding.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                childFragmentManager.beginTransaction()
+                    .replace(R.id.container_fragment, fragmentsList[tab?.position!!])
+                    .commitNow()
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
+            }
+
+        })
+
+        return binding.root
+    }
+
+
 
 }
+
+

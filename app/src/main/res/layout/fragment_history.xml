@@ -1,0 +1,121 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".ui.main.HistoryFragment"
+    android:backgroundTint="@color/background"
+    android:id="@+id/fragment_history">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_currency_name"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="История обмена"
+            android:textColor="@color/main_text"
+            android:textSize="@dimen/main_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="@dimen/margin_currency_name"
+            tools:ignore="MissingConstraints" />
+
+        <Button
+            android:id="@+id/filters"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:text="Фильтры"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="MissingConstraints"
+            android:layout_marginRight="@dimen/margin_currency_name"
+            android:backgroundTint="@color/currency_value"
+            android:textColor="@color/background"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="@dimen/margin_currency_name"
+        android:layout_marginTop="@dimen/fab_margin">
+        <TextView
+            android:id="@+id/data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Дата"
+            android:textColor="@color/main_text"
+            android:textSize="@dimen/gender_size"
+            />
+        <LinearLayout
+            android:id="@+id/card_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="20dp"
+            android:background="@drawable/round_corners"
+            android:layout_marginTop="10dp"
+            >
+
+            <TextView
+                android:id="@+id/rate_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Значение"
+                android:textColor="@color/currency_value"
+                android:textSize="@dimen/gender_size" />
+            <TextView
+                android:id="@+id/rate_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/description"
+                android:textColor="@color/main_text"
+                android:textSize="@dimen/gender_size" />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/arrow"
+                android:layout_marginStart="@dimen/fab_margin"
+                />
+            <TextView
+                android:id="@+id/rate_value1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/fab_margin"
+                android:text="Значение"
+                android:textColor="@color/currency_value"
+                android:textSize="@dimen/gender_size" />
+            <TextView
+                android:id="@+id/rate_name1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/description"
+                android:textColor="@color/main_text"
+                android:textSize="@dimen/gender_size" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/recyclerview"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_width="match_parent"-->
+<!--        tools:itemCount="1"-->
+<!--        tools:listitem="@layout/item_currency"-->
+<!--        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--        android:layout_marginBottom="@dimen/fab_margin"-->
+<!--        tools:ignore="MissingConstraints" />-->
+
+
+</LinearLayout>

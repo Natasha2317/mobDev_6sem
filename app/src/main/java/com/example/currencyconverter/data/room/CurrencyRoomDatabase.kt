@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.*
 import com.example.currencyconverter.data.ListConverter
 import com.example.currencyconverter.data.MapConverter
+import androidx.room.Database
 
 
 @Database(entities = [Currency::class], version = 1, exportSchema = false)
@@ -15,19 +16,18 @@ abstract class CurrencyRoomDatabase : RoomDatabase() {
         @Volatile
         var database: CurrencyRoomDatabase? = null
 
-        fun getInstance(context: Context): CurrencyRoomDatabase? {
-            if (database == null) {
-                synchronized(this) {
-                        val db = Room.databaseBuilder(
-                            context.applicationContext,
-                            CurrencyRoomDatabase::class.java, "currency_database"
-                        ).fallbackToDestructiveMigration()
-                            .build()
-                    database = db
-                    return db
+        fun getInstance(context: Context): CurrencyRoomDatabase {
+            return if (database === null) {
+                database = Room.databaseBuilder(
+                        context, CurrencyRoomDatabase::class.java, "currency_database"
+                    ).build()
+                    database as CurrencyRoomDatabase
+                }else{
+                database as CurrencyRoomDatabase
                 }
-            }
-            return database
         }
+
     }
 }
+
+

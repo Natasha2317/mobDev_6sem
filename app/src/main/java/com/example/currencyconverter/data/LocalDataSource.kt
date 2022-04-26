@@ -1,13 +1,13 @@
 package com.example.currencyconverter.data
 
+import androidx.lifecycle.LiveData
 import com.example.currencyconverter.data.room.Currency
 import com.example.currencyconverter.data.room.CurrencyDao
 
-interface LocalDataSource {
+class LocalDataSource {
+    lateinit var currencyDao: CurrencyDao
 
-    val currencyDao: CurrencyDao
-
-    suspend fun getRoomCurrencyList(): Currency {
+    suspend fun getRoomCurrencyList(): LiveData<List<Currency>> {
         return currencyDao.getRoomCurrencyList()
     }
 }

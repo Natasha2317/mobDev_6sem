@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".ui.main.MainFragment"
+    android:backgroundTint="@color/background"
+    android:id="@+id/fragment_main">
+
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_currency_name"
+        android:layout_marginTop="@dimen/margin_currency_name"
+        android:text="@string/date"
+        android:textColor="@color/main_text"
+        android:textSize="@dimen/main_text" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        tools:itemCount="10"
+        tools:listitem="@layout/item_currency"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:ignore="MissingConstraints" />
+
+
+</LinearLayout>
