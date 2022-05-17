@@ -3,16 +3,17 @@ package com.example.currencyconverter.repository
 import androidx.lifecycle.LiveData
 import com.example.currencyconverter.data.LocalDataSource
 import com.example.currencyconverter.data.RemoteDataSource
+import com.example.currencyconverter.data.api.CurrencyApi
 import com.example.currencyconverter.data.room.Currency
-import com.example.currencyconverter.data.room.CurrencyDao
 import com.example.currencyconverter.models.Currencies
 
 
 class CurrencyRepository(
-    private val localDataSource: LocalDataSource,
-    private val remoteDataSource: RemoteDataSource,
+//    private val localDataSource: LocalDataSource,
+//    private val remoteDataSource: RemoteDataSource,
 
     ) {
+    private val remoteDataSource: RemoteDataSource = TODO()
 
     suspend fun getRetrofitCurrencyList(): Currencies? {
         return try {
@@ -23,7 +24,7 @@ class CurrencyRepository(
         }
     }
 
-    suspend fun getRoomCurrencyList(): LiveData<List<Currency>> {
-        return localDataSource.getRoomCurrencyList()
-    }
+//    suspend fun getRoomCurrencyList(): LiveData<List<Currency>> {
+//        return localDataSource.getRoomCurrencyList()
+//    }
 }

@@ -1,18 +1,15 @@
-package com.example.currencyconverter.viewmodels
+package com.example.currencyconverter.ui.history.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.currencyconverter.DependencyInjection.repository
-import com.example.currencyconverter.data.room.Currency
+import com.example.currencyconverter.data.api.repository.RetrofitRepository
 import com.example.currencyconverter.models.Currencies
 import com.example.currencyconverter.repository.CurrencyRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
-class MainViewModel(private val currencyRepository: CurrencyRepository) : ViewModel() {
+class HistoryViewModel(private val currencyRepository: RetrofitRepository) : ViewModel() {
     val data: MutableLiveData<Currencies> by lazy {
         MutableLiveData()
     }

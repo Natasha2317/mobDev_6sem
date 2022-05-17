@@ -9,7 +9,7 @@ import retrofit2.Response
 class RemoteDataSource(private val currencyApi: CurrencyApi) {
 
     suspend fun getRetrofitCurrencyList(): CurrencyResponse {
-        return currencyApi.getCurrencyList()
+        return currencyApi.getRetrofitCurrencyList()
     }
 
 

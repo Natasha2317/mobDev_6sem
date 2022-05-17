@@ -1,7 +1,7 @@
 package com.example.currencyconverter.models
 
 import java.io.Serializable
-import java.util.*
+
 
 data class Currencies(
     var base: String,
@@ -12,5 +12,5 @@ data class Currencies(
 data class Currency(
     var name: String,
     var value: Double,
-    var favorite: Boolean
-)
+//    var favorite: Boolean
+): Serializable

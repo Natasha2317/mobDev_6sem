@@ -7,8 +7,7 @@ import retrofit2.http.GET
 
 interface CurrencyApi {
 
-
-    @GET("/api/latest?access_key=c74e48f783b2008346b29126369eea4b&format=1")
-    suspend fun getCurrencyList(): CurrencyResponse
+    @GET("/api/latest?access_key=50eff39862f6aab9060144e1829e559d&format=1")
+    suspend fun getRetrofitCurrencyList(): CurrencyResponse
 
 }

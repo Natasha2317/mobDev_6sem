@@ -1,4 +1,4 @@
-package com.example.currencyconverter.data
+package com.example.currencyconverter.data.room.converters
 
 import androidx.room.TypeConverter
 import com.example.currencyconverter.data.room.Currency

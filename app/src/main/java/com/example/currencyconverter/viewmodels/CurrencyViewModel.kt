@@ -3,11 +3,8 @@ package com.example.currencyconverter.viewmodels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.example.currencyconverter.DependencyInjection
 import com.example.currencyconverter.data.room.Currency
-import com.example.currencyconverter.data.room.CurrencyRoomDatabase
 import com.example.currencyconverter.repository.CurrencyRepository
-import kotlinx.coroutines.runBlocking
 
 class CurrencyViewModel(application: Application): AndroidViewModel(application) {
 

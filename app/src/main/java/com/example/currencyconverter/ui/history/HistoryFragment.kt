@@ -1,4 +1,4 @@
-package com.example.currencyconverter.ui.main
+package com.example.currencyconverter.ui.history
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -6,14 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.currencyconverter.DependencyInjection
 import com.example.currencyconverter.R
-import com.example.currencyconverter.databinding.FragmentFiltersBinding
-import com.example.currencyconverter.repository.CurrencyRepository
+import com.example.currencyconverter.data.api.repository.RetrofitRepository
 
 import com.example.currencyconverter.databinding.FragmentHistoryBinding
-import com.example.currencyconverter.viewmodels.MainViewModel
-import com.example.currencyconverter.viewmodels.MainViewModelFactory
+import com.example.currencyconverter.ui.filters.FiltersFragment
+import com.example.currencyconverter.ui.history.viewmodel.HistoryViewModel
+import com.example.currencyconverter.ui.history.viewmodel.HistoryViewModelFactory
 
 
 class HistoryFragment : Fragment() {
@@ -23,14 +22,14 @@ class HistoryFragment : Fragment() {
         fun newInstance() = HistoryFragment()
     }
     private lateinit var binding: FragmentHistoryBinding
-    private lateinit var viewModel: MainViewModel
-    private var currencyRepository: CurrencyRepository = DependencyInjection.repository
+    private lateinit var viewModel: HistoryViewModel
+    private var currencyRepository: RetrofitRepository = RetrofitRepository()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val viewModelFactory = MainViewModelFactory(currencyRepository)
-        viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
+        val viewModelFactory = HistoryViewModelFactory(currencyRepository)
+        viewModel = ViewModelProvider(this, viewModelFactory)[HistoryViewModel::class.java]
         viewModel.init()
 
     }
@@ -38,7 +37,6 @@ class HistoryFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentHistoryBinding.inflate(inflater, container, false)
-
         binding.filters.setOnClickListener{
             parentFragmentManager.beginTransaction()
                 .replace(R.id.container_fragment, FiltersFragment())

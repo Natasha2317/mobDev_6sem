@@ -6,18 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.example.currencyconverter.DependencyInjection
 import com.example.currencyconverter.R
-import com.example.currencyconverter.adapter.CurrencyActionListener
-import com.example.currencyconverter.adapter.CurrencyAdapter
-import com.example.currencyconverter.databinding.FragmentListBinding
 import com.example.currencyconverter.databinding.FragmentMainBinding
-import com.example.currencyconverter.models.Currency
+import com.example.currencyconverter.ui.analytics.AnalyticsFragment
+import com.example.currencyconverter.ui.history.HistoryFragment
+import com.example.currencyconverter.ui.list_currency.ListFragment
 
-import com.example.currencyconverter.repository.CurrencyRepository
-import com.example.currencyconverter.viewmodels.MainViewModel
-import com.example.currencyconverter.viewmodels.MainViewModelFactory
 import com.google.android.material.tabs.TabLayout
 
 

@@ -2,9 +2,10 @@ package com.example.currencyconverter.data.room
 
 import android.content.Context
 import androidx.room.*
-import com.example.currencyconverter.data.ListConverter
-import com.example.currencyconverter.data.MapConverter
+import com.example.currencyconverter.data.room.converters.ListConverter
+import com.example.currencyconverter.data.room.converters.MapConverter
 import androidx.room.Database
+import com.example.currencyconverter.data.room.dao.CurrencyDao
 
 
 @Database(entities = [Currency::class], version = 1, exportSchema = false)

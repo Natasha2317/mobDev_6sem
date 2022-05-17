@@ -1,10 +1,10 @@
-package com.example.currencyconverter.viewmodels
+package com.example.currencyconverter.ui.list_currency.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.currencyconverter.repository.CurrencyRepository
+import com.example.currencyconverter.data.api.repository.RetrofitRepository
 
-class MainViewModelFactory (private val currencyRepository: CurrencyRepository): ViewModelProvider.Factory {
+class MainViewModelFactory(private val currencyRepository: RetrofitRepository): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
             MainViewModel(this.currencyRepository) as T

@@ -1,21 +1,17 @@
-package com.example.currencyconverter.ui.main
+package com.example.currencyconverter.ui.filters
 
-import android.R
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.currencyconverter.DependencyInjection
+import com.example.currencyconverter.data.api.repository.RetrofitRepository
 import com.example.currencyconverter.databinding.FragmentFiltersBinding
-import com.example.currencyconverter.repository.CurrencyRepository
-import com.example.currencyconverter.viewmodels.MainViewModel
-import com.example.currencyconverter.viewmodels.MainViewModelFactory
+import com.example.currencyconverter.ui.filters.viewmodel.FiltersViewModel
+import com.example.currencyconverter.ui.filters.viewmodel.FiltersViewModelFactory
 
 
 class FiltersFragment : Fragment() {
@@ -25,14 +21,14 @@ class FiltersFragment : Fragment() {
         fun newInstance() = FiltersFragment()
     }
     private lateinit var binding: FragmentFiltersBinding
-    private lateinit var viewModel: MainViewModel
-    private var currencyRepository: CurrencyRepository = DependencyInjection.repository
+    private lateinit var viewModel: FiltersViewModel
+    private var currencyRepository: RetrofitRepository = RetrofitRepository()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val viewModelFactory = MainViewModelFactory(currencyRepository)
-        viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
+        val viewModelFactory = FiltersViewModelFactory(currencyRepository)
+        viewModel = ViewModelProvider(this, viewModelFactory)[FiltersViewModel::class.java]
         viewModel.init()
 
     }

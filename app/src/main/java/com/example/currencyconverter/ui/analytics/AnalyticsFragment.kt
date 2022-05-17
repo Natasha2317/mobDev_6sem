@@ -1,4 +1,4 @@
-package com.example.currencyconverter.ui.main
+package com.example.currencyconverter.ui.analytics
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -6,11 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.currencyconverter.DependencyInjection
-import com.example.currencyconverter.repository.CurrencyRepository
+import com.example.currencyconverter.data.api.repository.RetrofitRepository
 import com.example.currencyconverter.databinding.FragmentAnalyticsBinding
-import com.example.currencyconverter.viewmodels.MainViewModel
-import com.example.currencyconverter.viewmodels.MainViewModelFactory
+import com.example.currencyconverter.ui.analytics.viewmodel.AnalyticsViewModel
+import com.example.currencyconverter.ui.analytics.viewmodel.AnalyticsViewModelFactory
 
 
 class AnalyticsFragment : Fragment() {
@@ -20,14 +19,14 @@ class AnalyticsFragment : Fragment() {
         fun newInstance() = AnalyticsFragment()
     }
     private lateinit var binding: FragmentAnalyticsBinding
-    private lateinit var viewModel: MainViewModel
-    private var currencyRepository: CurrencyRepository = DependencyInjection.repository
+    private lateinit var viewModel: AnalyticsViewModel
+    private var currencyRepository: RetrofitRepository = RetrofitRepository()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val viewModelFactory = MainViewModelFactory(currencyRepository)
-        viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
+        val viewModelFactory = AnalyticsViewModelFactory(currencyRepository)
+        viewModel = ViewModelProvider(this, viewModelFactory)[AnalyticsViewModel::class.java]
         viewModel.init()
 
     }
