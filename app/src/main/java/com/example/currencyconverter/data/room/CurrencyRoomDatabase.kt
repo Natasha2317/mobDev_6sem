@@ -22,7 +22,7 @@ abstract class CurrencyRoomDatabase : RoomDatabase() {
             return if (database === null) {
                 database = Room.databaseBuilder(
                         context, CurrencyRoomDatabase::class.java, "currency_database"
-                    ).fallbackToDestructiveMigration()
+                    )
                     .build()
                     database as CurrencyRoomDatabase
                 }else{

@@ -6,7 +6,7 @@ import com.example.currencyconverter.models.Currency
 
 interface LocalCurrencyRepository {
 
-    val getRoomFavoriteCurrencyList: LiveData<List<Currency>>
+    suspend fun getRoomCurrencyList(): MutableList<Currency>
 
     suspend fun insertFavoriteCurrency(currency: Currency, onSuccess:() -> Unit)
 

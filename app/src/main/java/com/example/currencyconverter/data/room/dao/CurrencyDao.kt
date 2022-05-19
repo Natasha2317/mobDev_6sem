@@ -7,8 +7,12 @@ import com.example.currencyconverter.models.Currency
 
 @Dao
 interface CurrencyDao {
+//    @Query("SELECT * FROM currencies")
+//    fun getRoomCurrencyList(): LiveData<List<Currency>>
+
     @Query("SELECT * FROM currencies")
-    fun getRoomFavoriteCurrencyList(): LiveData<List<Currency>>
+    suspend fun getRoomCurrencyList(): MutableList<Currency>
+
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertFavoriteCurrency(currency: Currency)
@@ -16,6 +20,6 @@ interface CurrencyDao {
     @Delete
     suspend fun deleteFavoriteCurrency(currency: Currency)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun updateListCurrency(currency: Currency)
+    @Query("UPDATE currencies SET isFavorite = :isFavorite WHERE name = :name")
+    suspend fun updateListCurrency(name: String, isFavorite: Boolean)
 }

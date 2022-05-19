@@ -6,7 +6,7 @@ import com.example.currencyconverter.data.room.dao.CurrencyDao
 import com.example.currencyconverter.models.Currency
 import com.example.currencyconverter.repository.CurrencyDtoMapper
 
-class RepositoryInitializer(private val currencyDao: CurrencyDao): LocalCurrencyRepository {
+class RepositoryRealization(private val currencyDao: CurrencyDao): LocalCurrencyRepository {
 
     //    private var currencyDao: CurrencyDao? = null
 //    private lateinit var currencyRepository: CurrencyRepository
@@ -18,8 +18,9 @@ class RepositoryInitializer(private val currencyDao: CurrencyDao): LocalCurrency
 //        }
 //        return currencyRepository
 //    }
-    override val getRoomFavoriteCurrencyList: LiveData<List<Currency>>
-        get() = currencyDao.getRoomFavoriteCurrencyList()
+    override suspend fun getRoomCurrencyList(): MutableList<Currency>{
+        return currencyDao.getRoomCurrencyList()
+    }
 
     override suspend fun insertFavoriteCurrency(currency: Currency, onSuccess: () -> Unit) {
         currencyDao.insertFavoriteCurrency(currency)
@@ -32,7 +33,7 @@ class RepositoryInitializer(private val currencyDao: CurrencyDao): LocalCurrency
     }
 
     override suspend fun updateListCurrency(currency: Currency, onSuccess: () -> Unit) {
-        currencyDao.updateListCurrency(currency)
+        currencyDao.updateListCurrency(currency.name,  currency.isFavorite)
         onSuccess()
     }
 

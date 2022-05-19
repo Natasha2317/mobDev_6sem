@@ -1,6 +1,7 @@
 package com.example.currencyconverter.ui.list_currency
 
 import android.app.Application
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -35,8 +36,9 @@ class ListFragment : Fragment() {
     private lateinit var adapterFavorite: CurrencyFavoriteAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerViewFavorite: RecyclerView
+    var currencyItems: MutableList<Currency> = mutableListOf()
     lateinit var currentCurrency: Currency
-    private var currencyRepository: RetrofitRepository = RetrofitRepository()
+//    private var currencyRepository: RetrofitRepository = RetrofitRepository()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,12 +48,14 @@ class ListFragment : Fragment() {
 //        viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         viewModel.initDataBase()
-        viewModel.getLocalCurrencyList()
-        viewModel.getRetrofitCurrencyList()
+
         adapterFavorite = CurrencyFavoriteAdapter(object: CurrencyActionListener {
                 override fun onCurrencyFavorite(currency: Currency) {
                     currentCurrency = currency
-                    viewModel.insertFavoriteCurrency(currentCurrency){}
+
+                    viewModel.updateListCurrency(currentCurrency){
+                        getLocalCurrencyList()
+                    }
                 }
                 override fun currencyExchange(currency: Currency) {
                     val fragment = ExchangeFragment()
@@ -64,12 +68,13 @@ class ListFragment : Fragment() {
                 }
             }
         )
-//        viewModel.insertFavoriteCurrency(currentCurrency){}
 
         adapter = CurrencyAdapter(object: CurrencyActionListener {
             override fun onCurrencyFavorite(currency: Currency) {
                 currentCurrency = currency
-                viewModel.insertFavoriteCurrency(currentCurrency){}
+                viewModel.updateListCurrency(currentCurrency){
+                        getLocalCurrencyList()
+                    }
             }
             override fun currencyExchange(currency: Currency) {
                 val fragment = ExchangeFragment()
@@ -80,7 +85,9 @@ class ListFragment : Fragment() {
                     .add(R.id.container_fragment, fragment)
                     .commitNow()
             }
-        })
+        }, currencyItems)
+
+        getLocalCurrencyList()
 
     }
 
@@ -91,6 +98,7 @@ class ListFragment : Fragment() {
         recyclerViewFavorite = binding.recyclerViewFavorite
         recyclerViewFavorite.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         recyclerViewFavorite.adapter = adapterFavorite
+
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         recyclerView.adapter = adapter
@@ -101,24 +109,28 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.data.observe(viewLifecycleOwner) { it ->
-            binding.date.text = it.date
-            adapter.setList(it.rates)
-            var rates = it.rates
-            for(item in rates){
-                viewModel.updateListCurrency(item) {
+        binding.updateList.setOnClickListener {
+            viewModel.getRetrofitCurrencyList()
+            viewModel.data.observe(viewLifecycleOwner) { it ->
+                binding.date.text = it.date
+                var rates = it.rates
+                for(item in rates){
+                    viewModel.updateListCurrency(item) {
+                    }
                 }
             }
-//            adapter.currencyItems = it.rates
-            binding.updateList.setOnClickListener {
+        }
+    }
 
+    private fun getLocalCurrencyList() {
+
+        viewModel.getLocalCurrencyList().let { newCurrency ->
+            currencyItems.clear()
+            newCurrency.forEach { currency ->
+                currencyItems.add(currency)
             }
+            adapter.setList(currencyItems)
         }
-        viewModel.getLocalCurrencyList().observe(viewLifecycleOwner) {
-            adapterFavorite.setList(it)
-        }
-
-
     }
 
 

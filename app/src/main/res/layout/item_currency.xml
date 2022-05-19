@@ -38,8 +38,7 @@
                 android:layout_height="fill_parent"
                 android:layout_alignParentRight="true"
                 android:background="#00ffffff"
-                android:src="@drawable/star"
-                app:tint="#F2F2F2" />
+                 />
 
         </RelativeLayout>
 

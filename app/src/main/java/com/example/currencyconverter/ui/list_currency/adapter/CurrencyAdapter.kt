@@ -1,9 +1,11 @@
 package com.example.currencyconverter.ui.list_currency.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+
 import androidx.recyclerview.widget.RecyclerView
 import com.example.currencyconverter.R
 import com.example.currencyconverter.data.room.CurrencyLocal
@@ -12,24 +14,34 @@ import com.example.currencyconverter.models.Currency
 
 
 class CurrencyAdapter(
-    private val actionListener: CurrencyActionListener
+    private val actionListener: CurrencyActionListener,
+    var currencyItems: MutableList<Currency>
 ) : RecyclerView.Adapter<CurrencyAdapter.CurrencyViewHolder>(){
-    var currencyItems: List<Currency> = emptyList()
+//    var currencyItems: List<Currency> = emptyList()
 //    var currencyLocalItems: List<CurrencyLocal> = emptyList()
-    var isCurrentFavorite: Boolean = false
+//    private var isCurrentFavorite: Boolean = false
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CurrencyViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemCurrencyBinding.inflate(inflater, parent, false)
 
+//        binding.favorite.setOnClickListener {
+//            if (!isCurrentFavorite) {
+//                DrawableCompat.setTint(
+//                    binding.favorite.drawable,
+//                    ContextCompat.getColor(parent.context, R.color.currency_value)
+//                )
+//                isCurrentFavorite = true
+//            } else {
+//                DrawableCompat.setTint(
+//                    binding.favorite.drawable,
+//                    ContextCompat.getColor(parent.context, R.color.disabled_star)
+//                )
+//                isCurrentFavorite = false
+//            }
+//        }
 
-            if(isCurrentFavorite){
-                DrawableCompat.setTint(binding.favorite.drawable, ContextCompat.getColor(parent.context, R.color.currency_value))
-            }
-            else{
-                DrawableCompat.setTint(binding.favorite.drawable, ContextCompat.getColor(parent.context, R.color.disabled_star))
-            }
 
 
         return CurrencyViewHolder(binding)
@@ -41,6 +53,12 @@ class CurrencyAdapter(
 
             rateName.text = currencyItem.name
             rateValue.text = currencyItem.value.toString()
+//            isCurrentFavorite = currencyItem.isFavorite
+            if (currencyItem.isFavorite) {
+                favorite.setImageResource(R.drawable.star_pressed)
+            } else {
+                favorite.setImageResource(R.drawable.star)
+            }
 
         }
     }
@@ -51,9 +69,9 @@ class CurrencyAdapter(
 
     inner class CurrencyViewHolder(val binding: ItemCurrencyBinding) : RecyclerView.ViewHolder(binding.root)
 
-    fun setList(list: List<Currency>){
+    fun setList(list: MutableList<Currency>){
         currencyItems = list
-        notifyDataSetChanged()
+//        notifyDataSetChanged()
     }
 
 //    override fun onClick(v: View) {
@@ -61,6 +79,9 @@ class CurrencyAdapter(
 //        when(v.id){
 //            R.id.favorite ->{
 //                actionListener.onCurrencyFavorite(currency)
+//                if (currency.isFavorite){
+//
+//                }
 //            }else ->{
 //                actionListener.currencyExchange(currency)
 //            }
@@ -70,12 +91,15 @@ class CurrencyAdapter(
         super.onViewAttachedToWindow(holder)
         holder.itemView.setOnClickListener {
             actionListener.currencyExchange(currencyItems[holder.absoluteAdapterPosition])
-//            actionListener.onCurrencyFavorite(currencyItems[holder.absoluteAdapterPosition])
+        }
 
+        holder.binding.favorite.setOnClickListener {
             currencyItems[holder.absoluteAdapterPosition].isFavorite = !currencyItems[holder.absoluteAdapterPosition].isFavorite
-            isCurrentFavorite = currencyItems[holder.absoluteAdapterPosition].isFavorite
+            actionListener.onCurrencyFavorite(currencyItems[holder.absoluteAdapterPosition])
+            notifyDataSetChanged()
 
         }
+
     }
 
 }

@@ -17,5 +17,5 @@ data class Currency(
     @SerializedName("name")
     @PrimaryKey @NonNull val name: String,
     @SerializedName("value") val value: Double,
-    var isFavorite: Boolean
+    var isFavorite: Boolean,
 ): Serializable
