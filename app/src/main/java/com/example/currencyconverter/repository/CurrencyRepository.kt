@@ -4,11 +4,10 @@ import androidx.lifecycle.LiveData
 import com.example.currencyconverter.data.LocalDataSource
 import com.example.currencyconverter.data.RemoteDataSource
 import com.example.currencyconverter.data.api.CurrencyApi
-import com.example.currencyconverter.data.room.Currency
 import com.example.currencyconverter.models.Currencies
 
 
-class CurrencyRepository(
+open class CurrencyRepository(
 //    private val localDataSource: LocalDataSource,
 //    private val remoteDataSource: RemoteDataSource,
 

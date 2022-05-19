@@ -1,5 +1,9 @@
 package com.example.currencyconverter.models
 
+import androidx.annotation.NonNull
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 
@@ -8,9 +12,10 @@ data class Currencies(
     var date: String,
     var rates: List<Currency>
 )
-
+@Entity(tableName = "currencies")
 data class Currency(
-    var name: String,
-    var value: Double,
-//    var favorite: Boolean
+    @SerializedName("name")
+    @PrimaryKey @NonNull val name: String,
+    @SerializedName("value") val value: Double,
+    var isFavorite: Boolean
 ): Serializable

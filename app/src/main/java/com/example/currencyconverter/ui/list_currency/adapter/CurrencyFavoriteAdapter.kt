@@ -4,18 +4,19 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+
 import androidx.recyclerview.widget.RecyclerView
 import com.example.currencyconverter.R
 import com.example.currencyconverter.data.room.CurrencyLocal
 import com.example.currencyconverter.databinding.ItemCurrencyBinding
 import com.example.currencyconverter.models.Currency
+import kotlin.properties.Delegates
 
 
-class CurrencyAdapter(
+class CurrencyFavoriteAdapter(
     private val actionListener: CurrencyActionListener
-) : RecyclerView.Adapter<CurrencyAdapter.CurrencyViewHolder>(){
+) : RecyclerView.Adapter<CurrencyFavoriteAdapter.CurrencyViewHolder>() {
     var currencyItems: List<Currency> = emptyList()
-//    var currencyLocalItems: List<CurrencyLocal> = emptyList()
     var isCurrentFavorite: Boolean = false
 
 
@@ -24,19 +25,19 @@ class CurrencyAdapter(
         val binding = ItemCurrencyBinding.inflate(inflater, parent, false)
 
 
-            if(isCurrentFavorite){
+            if(!isCurrentFavorite){
                 DrawableCompat.setTint(binding.favorite.drawable, ContextCompat.getColor(parent.context, R.color.currency_value))
             }
             else{
                 DrawableCompat.setTint(binding.favorite.drawable, ContextCompat.getColor(parent.context, R.color.disabled_star))
             }
 
-
         return CurrencyViewHolder(binding)
     }
 
+
     override fun onBindViewHolder(holder: CurrencyViewHolder, position: Int) {
-        var currencyItem: Currency = currencyItems[position]
+        var currencyItem = currencyItems[position]
         with(holder.binding){
 
             rateName.text = currencyItem.name
@@ -56,6 +57,8 @@ class CurrencyAdapter(
         notifyDataSetChanged()
     }
 
+
+
 //    override fun onClick(v: View) {
 //        val currency = v.tag as Currency
 //        when(v.id){
@@ -69,13 +72,9 @@ class CurrencyAdapter(
     override fun onViewAttachedToWindow(holder: CurrencyViewHolder) {
         super.onViewAttachedToWindow(holder)
         holder.itemView.setOnClickListener {
-            actionListener.currencyExchange(currencyItems[holder.absoluteAdapterPosition])
-//            actionListener.onCurrencyFavorite(currencyItems[holder.absoluteAdapterPosition])
-
-            currencyItems[holder.absoluteAdapterPosition].isFavorite = !currencyItems[holder.absoluteAdapterPosition].isFavorite
-            isCurrentFavorite = currencyItems[holder.absoluteAdapterPosition].isFavorite
 
         }
     }
+
 
 }

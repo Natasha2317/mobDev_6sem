@@ -6,12 +6,13 @@ import com.example.currencyconverter.data.room.converters.ListConverter
 import com.example.currencyconverter.data.room.converters.MapConverter
 import androidx.room.Database
 import com.example.currencyconverter.data.room.dao.CurrencyDao
+import com.example.currencyconverter.models.Currency
 
 
-@Database(entities = [Currency::class], version = 1, exportSchema = false)
+@Database(entities = [Currency::class], version = 2, exportSchema = false)
 @TypeConverters(ListConverter::class, MapConverter::class)
 abstract class CurrencyRoomDatabase : RoomDatabase() {
-    abstract fun currencyDao(): CurrencyDao
+    abstract fun getCurrencyDao(): CurrencyDao
 
     companion object {
         @Volatile
@@ -21,7 +22,8 @@ abstract class CurrencyRoomDatabase : RoomDatabase() {
             return if (database === null) {
                 database = Room.databaseBuilder(
                         context, CurrencyRoomDatabase::class.java, "currency_database"
-                    ).build()
+                    ).fallbackToDestructiveMigration()
+                    .build()
                     database as CurrencyRoomDatabase
                 }else{
                 database as CurrencyRoomDatabase

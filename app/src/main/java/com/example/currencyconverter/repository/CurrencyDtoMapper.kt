@@ -11,7 +11,7 @@ object CurrencyDtoMapper {
             date = response.date,
             base = response.base,
             rates = response.rates.toList().map {
-                Currency(it.first, it.second)
+                Currency(it.first, it.second, false)
             }
         )
     }

@@ -9,17 +9,47 @@
     android:backgroundTint="@color/background"
     android:id="@+id/fragment_main">
 
-
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_currency_name"
+        android:paddingHorizontal="@dimen/padding_item">
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_currency_name"
+            android:layout_marginTop="@dimen/margin_currency_name"
+            android:text="@string/date"
+            android:textColor="@color/main_text"
+            android:textSize="@dimen/main_text"
+            tools:ignore="MissingConstraints" />
+        <Button
+            android:id="@+id/updateList"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:background="@drawable/date_buttons"
+            android:text="Обновить"
+            android:textColor="@color/background"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="MissingConstraints" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewFavorite"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        tools:listitem="@layout/item_currency"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:ignore="MissingConstraints" />
     <TextView
-        android:id="@+id/date"
+        android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_currency_name"
         android:layout_marginTop="@dimen/margin_currency_name"
-        android:text="@string/date"
+        android:text="-----------------"
         android:textColor="@color/main_text"
         android:textSize="@dimen/main_text" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_height="wrap_content"
