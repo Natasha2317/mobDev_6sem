@@ -12,5 +12,7 @@ interface LocalCurrencyRepository {
 
     suspend fun deleteFavoriteCurrency(currency: Currency, onSuccess:() -> Unit)
 
+    suspend fun updateListFavoriteCurrency(currency: Currency, onSuccess:() -> Unit)
+
     suspend fun updateListCurrency(currency: Currency, onSuccess:() -> Unit)
 }

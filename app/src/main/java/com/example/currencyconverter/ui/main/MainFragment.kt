@@ -47,6 +47,7 @@ class MainFragment : Fragment() {
                 childFragmentManager.beginTransaction()
                     .replace(R.id.container_fragment, fragmentsList[tab?.position!!])
                     .commitNow()
+
             }
             override fun onTabUnselected(tab: TabLayout.Tab?) {
 
@@ -57,9 +58,9 @@ class MainFragment : Fragment() {
 
         })
 
+
         return binding.root
     }
-
 
 
 }

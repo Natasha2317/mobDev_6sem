@@ -1,23 +1,16 @@
 package com.example.currencyconverter.data.room.repository
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import com.example.currencyconverter.data.room.CurrencyLocal
+import com.example.currencyconverter.data.room.CurrencyRoomDatabase
 import com.example.currencyconverter.data.room.dao.CurrencyDao
 import com.example.currencyconverter.models.Currency
 import com.example.currencyconverter.repository.CurrencyDtoMapper
 
-class RepositoryRealization(private val currencyDao: CurrencyDao): LocalCurrencyRepository {
+class RepositoryRealization(private var currencyDao: CurrencyDao): LocalCurrencyRepository {
 
-    //    private var currencyDao: CurrencyDao? = null
-//    private lateinit var currencyRepository: CurrencyRepository
-//
-//    fun getRepository(context: Context): CurrencyRepository {
-//        if (currencyDao == null) {
-//            currencyDao = CurrencyRoomDatabase.getInstance(context)?.currencyDao()
-////            currencyRepository = DependencyInjection.repository
-//        }
-//        return currencyRepository
-//    }
+
     override suspend fun getRoomCurrencyList(): MutableList<Currency>{
         return currencyDao.getRoomCurrencyList()
     }
@@ -32,8 +25,13 @@ class RepositoryRealization(private val currencyDao: CurrencyDao): LocalCurrency
         onSuccess()
     }
 
+    override suspend fun updateListFavoriteCurrency(currency: Currency, onSuccess: () -> Unit) {
+        currencyDao.updateListFavoriteCurrency(currency.name,  currency.isFavorite)
+        onSuccess()
+    }
+
     override suspend fun updateListCurrency(currency: Currency, onSuccess: () -> Unit) {
-        currencyDao.updateListCurrency(currency.name,  currency.isFavorite)
+        currencyDao.updateListCurrency(currency.name,  currency.value)
         onSuccess()
     }
 

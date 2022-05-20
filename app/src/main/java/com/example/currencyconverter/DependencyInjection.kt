@@ -4,6 +4,9 @@ import com.example.currencyconverter.repository.CurrencyRepository
 import com.example.currencyconverter.data.LocalDataSource
 import com.example.currencyconverter.data.RemoteDataSource
 import com.example.currencyconverter.data.api.CurrencyApi
+import com.example.currencyconverter.data.api.repository.RetrofitRepository
+import com.example.currencyconverter.data.room.repository.LocalCurrencyRepository
+import com.example.currencyconverter.data.room.repository.RepositoryRealization
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -24,9 +27,10 @@ object DependencyInjection {
 
 //    private val localDataSource = LocalDataSource()
 //    private val remoteDataSource = RemoteDataSource(service)
-//
-//    val repository = CurrencyRepository(
-//        localDataSource,
-//        remoteDataSource,
-//    )
+    private val retrofitRepository = RetrofitRepository()
+//    private val repositoryRealization = RepositoryRealization()
+
+    val repository = CurrencyRepository(
+        retrofitRepository
+    )
 }

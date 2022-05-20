@@ -1,7 +1,5 @@
 package com.example.currencyconverter.ui.list_currency
 
-import android.app.Application
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.currencyconverter.R
-import com.example.currencyconverter.data.api.repository.RetrofitRepository
-import com.example.currencyconverter.data.room.CurrencyLocal
+import com.example.currencyconverter.data.room.RepositoryInitialization
+import com.example.currencyconverter.data.room.repository.RepositoryRealization
 import com.example.currencyconverter.ui.list_currency.adapter.CurrencyAdapter
 import com.example.currencyconverter.databinding.FragmentListBinding
 import com.example.currencyconverter.models.Currency
@@ -21,6 +19,7 @@ import com.example.currencyconverter.ui.exchange.ExchangeFragment
 import com.example.currencyconverter.ui.list_currency.adapter.CurrencyActionListener
 import com.example.currencyconverter.ui.list_currency.adapter.CurrencyFavoriteAdapter
 import com.example.currencyconverter.ui.list_currency.viewmodel.MainViewModel
+import com.example.currencyconverter.ui.list_currency.viewmodel.MainViewModelFactory
 
 
 class ListFragment : Fragment() {
@@ -36,24 +35,23 @@ class ListFragment : Fragment() {
     private lateinit var adapterFavorite: CurrencyFavoriteAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerViewFavorite: RecyclerView
-    var currencyItems: MutableList<Currency> = mutableListOf()
+    private var currencyItems: MutableList<Currency> = mutableListOf()
     lateinit var currentCurrency: Currency
-//    private var currencyRepository: RetrofitRepository = RetrofitRepository()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        val viewModelFactory = MainViewModelFactory(currencyRepository, Application())
-//        viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        viewModel.initDataBase()
+        val viewModelFactory = MainViewModelFactory(RepositoryInitialization.getRepository(requireContext()))
+        viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
 
         adapterFavorite = CurrencyFavoriteAdapter(object: CurrencyActionListener {
                 override fun onCurrencyFavorite(currency: Currency) {
                     currentCurrency = currency
 
-                    viewModel.updateListCurrency(currentCurrency){
+                    viewModel.updateListFavoriteCurrency(currentCurrency){
+                        getLocalCurrencyList()
+                    }
+                    viewModel.insertFavoriteCurrency(currentCurrency){
                         getLocalCurrencyList()
                     }
                 }
@@ -72,7 +70,7 @@ class ListFragment : Fragment() {
         adapter = CurrencyAdapter(object: CurrencyActionListener {
             override fun onCurrencyFavorite(currency: Currency) {
                 currentCurrency = currency
-                viewModel.updateListCurrency(currentCurrency){
+                viewModel.updateListFavoriteCurrency(currentCurrency){
                         getLocalCurrencyList()
                     }
             }
@@ -118,8 +116,10 @@ class ListFragment : Fragment() {
                     viewModel.updateListCurrency(item) {
                     }
                 }
+                getLocalCurrencyList()
             }
         }
+
     }
 
     private fun getLocalCurrencyList() {

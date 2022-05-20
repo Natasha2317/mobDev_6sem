@@ -26,23 +26,6 @@ class CurrencyAdapter(
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemCurrencyBinding.inflate(inflater, parent, false)
 
-//        binding.favorite.setOnClickListener {
-//            if (!isCurrentFavorite) {
-//                DrawableCompat.setTint(
-//                    binding.favorite.drawable,
-//                    ContextCompat.getColor(parent.context, R.color.currency_value)
-//                )
-//                isCurrentFavorite = true
-//            } else {
-//                DrawableCompat.setTint(
-//                    binding.favorite.drawable,
-//                    ContextCompat.getColor(parent.context, R.color.disabled_star)
-//                )
-//                isCurrentFavorite = false
-//            }
-//        }
-
-
 
         return CurrencyViewHolder(binding)
     }
@@ -53,7 +36,6 @@ class CurrencyAdapter(
 
             rateName.text = currencyItem.name
             rateValue.text = currencyItem.value.toString()
-//            isCurrentFavorite = currencyItem.isFavorite
             if (currencyItem.isFavorite) {
                 favorite.setImageResource(R.drawable.star_pressed)
             } else {
@@ -74,19 +56,6 @@ class CurrencyAdapter(
 //        notifyDataSetChanged()
     }
 
-//    override fun onClick(v: View) {
-//        val currency = v.tag as Currency
-//        when(v.id){
-//            R.id.favorite ->{
-//                actionListener.onCurrencyFavorite(currency)
-//                if (currency.isFavorite){
-//
-//                }
-//            }else ->{
-//                actionListener.currencyExchange(currency)
-//            }
-//        }
-//    }
     override fun onViewAttachedToWindow(holder: CurrencyViewHolder) {
         super.onViewAttachedToWindow(holder)
         holder.itemView.setOnClickListener {

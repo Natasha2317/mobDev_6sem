@@ -21,5 +21,8 @@ interface CurrencyDao {
     suspend fun deleteFavoriteCurrency(currency: Currency)
 
     @Query("UPDATE currencies SET isFavorite = :isFavorite WHERE name = :name")
-    suspend fun updateListCurrency(name: String, isFavorite: Boolean)
+    suspend fun updateListFavoriteCurrency(name: String, isFavorite: Boolean)
+
+    @Query("UPDATE currencies SET value = :value WHERE name = :name")
+    suspend fun updateListCurrency(name: String, value: Double)
 }

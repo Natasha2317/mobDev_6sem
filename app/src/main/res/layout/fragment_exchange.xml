@@ -9,6 +9,15 @@
     android:backgroundTint="@color/background"
     android:id="@+id/fragment_exchange">
 
+    <Button
+        android:id="@+id/backToListFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="20dp"
+        android:text="Назад"
+        android:backgroundTint="@color/currency_value"
+        android:textColor="@color/background"/>
 
     <LinearLayout
         android:id="@+id/card_id"

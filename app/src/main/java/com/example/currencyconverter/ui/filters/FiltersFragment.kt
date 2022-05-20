@@ -8,10 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.currencyconverter.R
 import com.example.currencyconverter.data.api.repository.RetrofitRepository
 import com.example.currencyconverter.databinding.FragmentFiltersBinding
 import com.example.currencyconverter.ui.filters.viewmodel.FiltersViewModel
 import com.example.currencyconverter.ui.filters.viewmodel.FiltersViewModelFactory
+import com.example.currencyconverter.ui.history.HistoryFragment
+import com.example.currencyconverter.ui.list_currency.ListFragment
 
 
 class FiltersFragment : Fragment() {
@@ -81,7 +84,17 @@ class FiltersFragment : Fragment() {
                 }
             }
         }
+
+        binding.backToHistoryFragment.setOnClickListener {
+            val fragment = HistoryFragment()
+            val bundle = Bundle()
+            fragment.arguments = bundle
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.container_fragment, fragment)
+                .commitNow()
+        }
     }
+
 
 
 }
