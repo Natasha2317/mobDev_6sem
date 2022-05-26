@@ -7,9 +7,10 @@ import com.example.currencyconverter.data.room.converters.MapConverter
 import androidx.room.Database
 import com.example.currencyconverter.data.room.dao.CurrencyDao
 import com.example.currencyconverter.models.Currency
+import com.example.currencyconverter.models.ExchangeHistory
 
 
-@Database(entities = [Currency::class], version = 2, exportSchema = false)
+@Database(entities = [Currency::class, ExchangeHistory::class], version = 3, exportSchema = false)
 @TypeConverters(ListConverter::class, MapConverter::class)
 abstract class CurrencyRoomDatabase : RoomDatabase() {
     abstract fun getCurrencyDao(): CurrencyDao
@@ -23,6 +24,7 @@ abstract class CurrencyRoomDatabase : RoomDatabase() {
                 database = Room.databaseBuilder(
                         context, CurrencyRoomDatabase::class.java, "currency_database"
                     )
+                    .fallbackToDestructiveMigration()
                     .build()
                     database as CurrencyRoomDatabase
                 }else{

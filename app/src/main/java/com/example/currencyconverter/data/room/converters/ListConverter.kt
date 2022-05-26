@@ -1,7 +1,7 @@
 package com.example.currencyconverter.data.room.converters
 
 import androidx.room.TypeConverter
-import com.example.currencyconverter.data.room.CurrencyLocal
+import com.example.currencyconverter.models.Currency
 import com.google.gson.Gson
 
 import com.google.gson.reflect.TypeToken
@@ -9,13 +9,13 @@ import com.google.gson.reflect.TypeToken
 
 class ListConverter {
     @TypeConverter
-    fun fromString(value: String): List<CurrencyLocal> {
-        val listType = object : TypeToken<List<CurrencyLocal>>() {}.type
+    fun fromString(value: String): List<Currency> {
+        val listType = object : TypeToken<List<Currency>>() {}.type
         return Gson().fromJson(value, listType)
     }
 
     @TypeConverter
-    fun fromList(list: List<CurrencyLocal>): String {
+    fun fromList(list: List<Currency>): String {
         val gson = Gson()
         return gson.toJson(list)
     }

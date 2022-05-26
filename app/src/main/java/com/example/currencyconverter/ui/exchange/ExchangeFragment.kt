@@ -11,12 +11,15 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.currencyconverter.R
 import com.example.currencyconverter.data.api.repository.RetrofitRepository
 import com.example.currencyconverter.data.room.RepositoryInitialization
-import com.example.currencyconverter.data.room.repository.RepositoryRealization
 import com.example.currencyconverter.databinding.FragmentExchangeBinding
 import com.example.currencyconverter.models.Currency
+import com.example.currencyconverter.models.ExchangeHistory
 import com.example.currencyconverter.ui.exchange.viewmodel.ExchangeViewModel
 import com.example.currencyconverter.ui.exchange.viewmodel.ExchangeViewModelFactory
 import com.example.currencyconverter.ui.list_currency.ListFragment
+import java.text.DecimalFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class ExchangeFragment() : Fragment() {
@@ -28,8 +31,9 @@ class ExchangeFragment() : Fragment() {
 
     private lateinit var binding: FragmentExchangeBinding
     private lateinit var viewModel: ExchangeViewModel
-    private var currencyRepository: RetrofitRepository = RetrofitRepository()
-    lateinit var currentCurrency: Currency
+    private lateinit var currentCurrency: Currency
+    lateinit var currentCurrencyUp: Currency
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +51,6 @@ class ExchangeFragment() : Fragment() {
         binding = FragmentExchangeBinding.inflate(inflater, container, false)
 
         currentCurrency = arguments?.getSerializable("currency") as Currency
-
         binding.valueSecondCurrency.text = "1"
 
         return binding.root
@@ -55,35 +58,86 @@ class ExchangeFragment() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val firstName = currentCurrency.name
-        viewModel.getLocalCurrencyList().let { newCurrency ->
-            newCurrency.forEach { currency ->
-                if (currency.name == firstName){
-                    binding.rateName.text = currency.name
+
+        var firstName = currentCurrency.name
+        var firstValue = currentCurrency.value
+        var secondName = ""
+        var secondNameIs = false
+        var secondValue = 1.0000
+        var num1 = 1.0000
+        var valueSecondCurrency = 1.0000
+        val exchangeHistorySize = viewModel.getExchangeHistory()
+
+        if (arguments?.getSerializable("currencyUp") != null){
+            var currentCurrencyUp = arguments?.getSerializable("currencyUp") as Currency
+            secondName = currentCurrency.name
+            secondValue = currentCurrency.value
+            firstName = currentCurrencyUp.name
+            firstValue = currentCurrencyUp.value
+            binding.rateName1.text = secondName
+            binding.rateName.text = firstName
+        }else{
+            viewModel.getFavoriteCurrencyList().let { newCurrency ->
+                newCurrency?.forEach { currency ->
+                    if(!secondNameIs){
+                        if (currency.name != firstName){
+                            currentCurrencyUp = currency
+                            secondName = currency.name
+                            secondValue = currency.value
+                            binding.rateName1.text = secondName
+                            if (currency.isFavorite) {
+                                binding.favorite1.setImageResource(R.drawable.star_pressed)
+                            } else {
+                                binding.favorite1.setImageResource(R.drawable.star)
+                            }
+                            secondNameIs = true
+                        }
+                    }
                 }
             }
+            binding.rateName.text = firstName
         }
 
-//        viewModel.data.observe(viewLifecycleOwner) { it ->
-//            val name = currentCurrency.name
-//            for (item in it.rates){
-//                if (item.name == name){
-//                    binding.rateName.text = item.name
-//                }
-//                binding.valueFirstCurrency.addTextChangedListener(object : TextWatcher {
-//                    override fun afterTextChanged(s: Editable) {}
-//                    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-//                    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-//                        if (start>0){
-//                            val num1: Float = s.toString().toFloat()
-//                            binding.valueSecondCurrency.text = (num1 * item.value).toString()
-//                        }else{
-//                            binding.valueSecondCurrency.text = "1"
-//                        }
-//
-//                    }
-//                })
-//            }
+
+        if (currentCurrency.isFavorite) {
+            binding.favorite.setImageResource(R.drawable.star_pressed)
+        } else {
+            binding.favorite.setImageResource(R.drawable.star)
+        }
+        binding.valueFirstCurrency.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {}
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                if (start>=0){
+                    num1 = s.toString().toDouble()
+                    valueSecondCurrency = (firstValue * num1) / secondValue
+                    binding.valueSecondCurrency.text = DecimalFormat("#0.0000").format(valueSecondCurrency)
+                }else{
+                    valueSecondCurrency = 1.0000
+                    binding.valueSecondCurrency.text = DecimalFormat("#0.0000").format(valueSecondCurrency)
+                }
+
+                var itemExchangeHistory = ExchangeHistory(
+                    exchangeHistorySize.size + 1,
+                    firstName,
+                    secondName,
+                    num1,
+                    valueSecondCurrency,
+                    getCurrentDate()
+                )
+
+                binding.exchange.setOnClickListener {
+                    viewModel.addExchangeHistory(itemExchangeHistory){}
+                    val fragment = ListFragment()
+                    val bundle = Bundle()
+                    fragment.arguments = bundle
+                    parentFragmentManager.beginTransaction()
+                        .replace(R.id.container_fragment, fragment)
+                        .commitNow()
+                }
+            }
+
+        })
 
 
 
@@ -96,7 +150,17 @@ class ExchangeFragment() : Fragment() {
                 .commitNow()
         }
 
+
+
     }
+
+    fun getCurrentDate(): String {
+        val c = Calendar.getInstance()
+        val df = SimpleDateFormat("dd-MM-yyyy")
+        return df.format(c.time)
+    }
+
+
 
 
 }

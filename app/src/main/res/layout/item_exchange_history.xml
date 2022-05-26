@@ -1,0 +1,72 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_item"
+    android:layout_marginTop="@dimen/main_padding"
+    android:layout_marginHorizontal="@dimen/fab_margin"
+    >
+    <TextView
+        android:id="@+id/data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Дата"
+        android:textColor="@color/main_text"
+        android:textSize="@dimen/gender_size"
+        android:layout_marginLeft="@dimen/padding_item"
+        />
+    <LinearLayout
+        android:id="@+id/card_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingVertical="8dp"
+        android:background="@drawable/round_corners"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        >
+
+        <TextView
+            android:id="@+id/value_currency1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Значение"
+            android:textColor="@color/currency_value"
+            android:textSize="@dimen/gender_size" />
+        <TextView
+            android:id="@+id/name_currency1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="@string/description"
+            android:textColor="@color/main_text"
+            android:textSize="@dimen/gender_size" />
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/arrow"
+            android:layout_marginStart="@dimen/fab_margin"
+            />
+        <TextView
+            android:id="@+id/value_currency2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/fab_margin"
+            android:text="Значение"
+            android:textColor="@color/currency_value"
+            android:textSize="@dimen/gender_size" />
+        <TextView
+            android:id="@+id/name_currency2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="@string/description"
+            android:textColor="@color/main_text"
+            android:textSize="@dimen/gender_size" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

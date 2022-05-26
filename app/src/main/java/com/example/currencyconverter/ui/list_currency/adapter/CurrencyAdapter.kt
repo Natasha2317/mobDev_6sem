@@ -1,26 +1,19 @@
 package com.example.currencyconverter.ui.list_currency.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 
 import androidx.recyclerview.widget.RecyclerView
 import com.example.currencyconverter.R
-import com.example.currencyconverter.data.room.CurrencyLocal
 import com.example.currencyconverter.databinding.ItemCurrencyBinding
 import com.example.currencyconverter.models.Currency
+import java.text.DecimalFormat
 
 
 class CurrencyAdapter(
     private val actionListener: CurrencyActionListener,
     var currencyItems: MutableList<Currency>
 ) : RecyclerView.Adapter<CurrencyAdapter.CurrencyViewHolder>(){
-//    var currencyItems: List<Currency> = emptyList()
-//    var currencyLocalItems: List<CurrencyLocal> = emptyList()
-//    private var isCurrentFavorite: Boolean = false
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CurrencyViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -35,7 +28,7 @@ class CurrencyAdapter(
         with(holder.binding){
 
             rateName.text = currencyItem.name
-            rateValue.text = currencyItem.value.toString()
+            rateValue.text = DecimalFormat("#0.0000").format(currencyItem.value)
             if (currencyItem.isFavorite) {
                 favorite.setImageResource(R.drawable.star_pressed)
             } else {
@@ -53,7 +46,7 @@ class CurrencyAdapter(
 
     fun setList(list: MutableList<Currency>){
         currencyItems = list
-//        notifyDataSetChanged()
+        notifyDataSetChanged()
     }
 
     override fun onViewAttachedToWindow(holder: CurrencyViewHolder) {
@@ -67,6 +60,16 @@ class CurrencyAdapter(
             actionListener.onCurrencyFavorite(currencyItems[holder.absoluteAdapterPosition])
             notifyDataSetChanged()
 
+        }
+
+        holder.itemView.setOnLongClickListener {
+            var currencyUp: Currency = currencyItems[holder.absoluteAdapterPosition]
+            actionListener.currencyUp(currencyUp)
+            holder.itemView.setOnClickListener {
+                currencyUp = currencyItems[holder.absoluteAdapterPosition]
+                actionListener.currencyUp(currencyUp)
+            }
+            true
         }
 
     }

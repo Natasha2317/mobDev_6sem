@@ -23,6 +23,7 @@ class MainViewModel(private var realization: RepositoryRealization) : ViewModel(
     }
 
 
+
     fun getRetrofitCurrencyList(){
         viewModelScope.launch(Dispatchers.IO){
             repository.getRetrofitCurrencyList().let {
@@ -39,9 +40,9 @@ class MainViewModel(private var realization: RepositoryRealization) : ViewModel(
     }
 
 
-    fun insertFavoriteCurrency(currency: Currency, onSuccess:() -> Unit){
+    fun insertCurrencyList(currency: Currency, onSuccess:() -> Unit){
        viewModelScope.launch(Dispatchers.IO){
-           realization.insertFavoriteCurrency(currency){
+           realization.insertCurrencyList(currency){
                 onSuccess()
             }
         }
