@@ -3,18 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/background"
     android:orientation="vertical"
     tools:context=".ui.filters.FiltersFragment"
-    android:backgroundTint="@color/background"
     android:id="@+id/fragment_filters">
     <Button
         android:id="@+id/backToHistoryFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
-        android:layout_marginLeft="10dp"
-        android:text="Назад"
+        android:layout_marginStart="10dp"
+        android:text="@string/button_back"
         android:backgroundTint="@color/currency_value"
         android:textColor="@color/background"/>
 
@@ -24,71 +23,65 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Фильтры"
+        android:text="@string/filters_header"
         android:textColor="@color/main_text"
         android:textSize="@dimen/main_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/linear_layout"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_currency_name"
-        android:paddingHorizontal="@dimen/padding_item">
+        android:background="@drawable/round_corners"
+        android:layout_gravity="center">
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Light"
+            android:entries="@array/filters"
+            android:spinnerMode="dropdown"
+            android:paddingVertical="@dimen/padding_item"
+            style="@android:style/Widget.Material.Light.Spinner" />
 
-        <Button
-            android:id="@+id/all_time"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:text="Все время"
-            android:background="@drawable/date_buttons"
-            android:textColor="@color/background"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/week"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+<!--        <Button-->
+<!--            android:id="@+id/all_time"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="@dimen/height_filters"-->
+<!--            android:text="@string/all_time"-->
+<!--            android:layout_marginEnd="@dimen/main_padding"-->
+<!--            android:background="@drawable/button_not_pressed"-->
+<!--            android:textColor="@color/filters_color"/>-->
 
-        <Button
-            android:id="@+id/week"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/date_buttons"
-            android:text="Неделя"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/month"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+<!--        <Button-->
+<!--            android:id="@+id/week"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="@dimen/height_filters"-->
+<!--            android:layout_marginEnd="@dimen/main_padding"-->
+<!--            android:background="@drawable/button_not_pressed"-->
+<!--            android:text="@string/week"-->
+<!--            android:textColor="@color/filters_color"/>-->
 
-        <Button
-            android:id="@+id/month"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/date_buttons"
-            android:text="Месяц"
-            android:textColor="@color/background"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/user_date"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+<!--        <Button-->
+<!--            android:id="@+id/month"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="@dimen/height_filters"-->
+<!--            android:layout_marginEnd="@dimen/main_padding"-->
+<!--            android:background="@drawable/button_not_pressed"-->
+<!--            android:text="@string/month"-->
+<!--            android:textColor="@color/filters_color"/>-->
 
-        <Button
-            android:id="@+id/user_date"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:background="@drawable/date_buttons"
-            android:text="Выбрать"
-            android:textColor="@color/background"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+<!--        <Button-->
+<!--            android:id="@+id/user_date"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="@dimen/height_filters"-->
+<!--            android:background="@drawable/button_not_pressed"-->
+<!--            android:text="@string/user_date"-->
+<!--            android:textColor="@color/filters_color"/>-->
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 
 </LinearLayout>

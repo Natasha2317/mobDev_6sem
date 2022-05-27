@@ -5,6 +5,7 @@ import android.text.TextUtils.indexOf
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -19,6 +20,13 @@ import com.example.currencyconverter.ui.exchange.ExchangeFragment
 import com.example.currencyconverter.ui.list_currency.adapter.CurrencyActionListener
 import com.example.currencyconverter.ui.list_currency.viewmodel.MainViewModel
 import com.example.currencyconverter.ui.list_currency.viewmodel.MainViewModelFactory
+import java.text.SimpleDateFormat
+import java.time.DateTimeException
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalDateTime.now
+import java.time.ZoneId
+import java.util.*
 
 
 class ListFragment : Fragment() {
@@ -34,7 +42,6 @@ class ListFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private var currencyItems: MutableList<Currency> = mutableListOf()
     lateinit var currentCurrency: Currency
-    lateinit var currentCurrencyUp: Currency
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +51,7 @@ class ListFragment : Fragment() {
 
         val fragment = ExchangeFragment()
         val bundle = Bundle()
-
+        var currencyType = 0
         adapter = CurrencyAdapter(object: CurrencyActionListener {
             override fun onCurrencyFavorite(currency: Currency) {
                 currentCurrency = currency
@@ -57,7 +64,7 @@ class ListFragment : Fragment() {
                     .add(R.id.container_fragment, fragment)
                     .commitNow()
             }
-            var currencyType = 0
+
             override fun currencyUp(currencyUp: Currency) {
                 if (currencyType==0){
                     var index = currencyItems.indexOf(currencyUp)
@@ -95,7 +102,7 @@ class ListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.date.text = getCurrentDate()
         binding.updateList.setOnClickListener {
             viewModel.getRetrofitCurrencyList()
             viewModel.data.observe(viewLifecycleOwner) { it ->
@@ -122,6 +129,11 @@ class ListFragment : Fragment() {
         }
     }
 
+    private fun getCurrentDate(): String {
+        val c = Calendar.getInstance()
+        val df = SimpleDateFormat("dd-MM-yyyy HH-mm-ss")
+        return df.format(c.time)
+    }
 
 }
 

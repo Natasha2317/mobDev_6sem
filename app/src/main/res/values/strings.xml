@@ -1,9 +1,19 @@
 <resources>
     <string name="app_name">CurrencyConverter</string>
-    <string name="gender">Гендер</string>
     <string name="description">Валюта</string>
     <string name="date">Дата</string>
-    <string name="name">Имя</string>
+    <string name="button_back">Назад</string>
+    <string name="filters_header">Фильтры</string>
+    <string name="all_time">Все время</string>
+    <string name="week">Неделя</string>
+    <string name="month">Месяц</string>
+    <string name="user_date">Выбрать</string>
+    <string-array name="filters">
+        <item>Всё время</item>
+        <item>Месяц</item>
+        <item>Неделя</item>
+        <item>Выбрать</item>
+    </string-array>
 </resources>
 
 

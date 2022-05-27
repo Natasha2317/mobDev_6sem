@@ -28,7 +28,6 @@ object DependencyInjection {
 //    private val localDataSource = LocalDataSource()
 //    private val remoteDataSource = RemoteDataSource(service)
     private val retrofitRepository = RetrofitRepository()
-//    private val repositoryRealization = RepositoryRealization()
 
     val repository = CurrencyRepository(
         retrofitRepository

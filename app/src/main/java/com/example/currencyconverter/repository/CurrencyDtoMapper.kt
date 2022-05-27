@@ -10,7 +10,7 @@ object CurrencyDtoMapper {
 
     fun mapResponseToDomainModel(response: CurrencyResponse): Currencies {
         return Currencies(
-            date = Instant.ofEpochSecond(response.timestamp).atZone(ZoneId.systemDefault()).toLocalDateTime().toString(),
+            date = Instant.ofEpochSecond(response.timestamp).toString(),
             base = response.base,
             rates = response.rates.toList().map {
                 Currency(it.first, it.second, false)

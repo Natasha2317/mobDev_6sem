@@ -1,6 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_id"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -23,7 +21,7 @@
             android:id="@+id/rate_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="@dimen/padding_item_currency"
             android:text="@string/description"
             android:textColor="@color/currency_value"
             android:textSize="@dimen/main_text" />
@@ -39,7 +37,7 @@
                 android:layout_alignParentRight="true"
                 android:background="#00ffffff"
                 android:src="@drawable/star"
-                android:padding="7dp"
+                android:padding="@dimen/padding_star"
                  />
 
         </RelativeLayout>

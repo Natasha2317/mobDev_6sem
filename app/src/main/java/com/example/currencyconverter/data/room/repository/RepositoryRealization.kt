@@ -1,5 +1,6 @@
 package com.example.currencyconverter.data.room.repository
 
+import androidx.lifecycle.LiveData
 import com.example.currencyconverter.data.room.dao.CurrencyDao
 import com.example.currencyconverter.models.Currency
 import com.example.currencyconverter.models.ExchangeHistory
@@ -37,6 +38,14 @@ class RepositoryRealization(private var currencyDao: CurrencyDao): LocalCurrency
 
     override suspend fun getExchangeHistory(): MutableList<ExchangeHistory> {
         return currencyDao.getExchangeHistory()
+    }
+
+    override suspend fun getRubInfo(): Currency {
+        return currencyDao.getRubInfo()
+    }
+
+    override suspend fun getUsdInfo(): Currency {
+        return currencyDao.getUsdInfo()
     }
 
 }

@@ -16,4 +16,5 @@
     <color name="main_text">#1A1A1A</color>
     <color name="currency_value">#4A46FF</color>
     <color name="disabled_star">#F2F2F2</color>
+    <color name="filters_color">#D1D1FF</color>
 </resources>

@@ -63,11 +63,9 @@ class CurrencyAdapter(
         }
 
         holder.itemView.setOnLongClickListener {
-            var currencyUp: Currency = currencyItems[holder.absoluteAdapterPosition]
-            actionListener.currencyUp(currencyUp)
+            actionListener.currencyUp(currencyItems[holder.absoluteAdapterPosition])
             holder.itemView.setOnClickListener {
-                currencyUp = currencyItems[holder.absoluteAdapterPosition]
-                actionListener.currencyUp(currencyUp)
+                actionListener.currencyUp(currencyItems[holder.absoluteAdapterPosition])
             }
             true
         }

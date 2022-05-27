@@ -65,12 +65,7 @@ class HistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        viewModel.data.observe(viewLifecycleOwner){it ->
-//            for (item in it.rates){
-//                binding.rateName.text = item.name
-//                binding.rateValue.text = item.value.toString()
-//            }
-//        }
+
 
     }
 

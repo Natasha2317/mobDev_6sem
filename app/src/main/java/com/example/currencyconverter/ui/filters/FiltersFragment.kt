@@ -1,20 +1,22 @@
 package com.example.currencyconverter.ui.filters
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.currencyconverter.R
-import com.example.currencyconverter.data.api.repository.RetrofitRepository
+import com.example.currencyconverter.data.room.RepositoryInitialization
 import com.example.currencyconverter.databinding.FragmentFiltersBinding
 import com.example.currencyconverter.ui.filters.viewmodel.FiltersViewModel
 import com.example.currencyconverter.ui.filters.viewmodel.FiltersViewModelFactory
 import com.example.currencyconverter.ui.history.HistoryFragment
-import com.example.currencyconverter.ui.list_currency.ListFragment
 
 
 class FiltersFragment : Fragment() {
@@ -25,14 +27,13 @@ class FiltersFragment : Fragment() {
     }
     private lateinit var binding: FragmentFiltersBinding
     private lateinit var viewModel: FiltersViewModel
-    private var currencyRepository: RetrofitRepository = RetrofitRepository()
+    private val filtersList: List<String> = listOf("Все время", "Месяц", "Неделя", "Выбрать")
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val viewModelFactory = FiltersViewModelFactory(currencyRepository)
+        val viewModelFactory = FiltersViewModelFactory(RepositoryInitialization.getRepository(requireContext()))
         viewModel = ViewModelProvider(this, viewModelFactory)[FiltersViewModel::class.java]
-        viewModel.init()
 
     }
 
@@ -46,44 +47,64 @@ class FiltersFragment : Fragment() {
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.data.observe(viewLifecycleOwner) {
 
-        }
-        var checked = false
-        if (!checked) {
-            binding.allTime.setOnClickListener {
-                if (!checked) {
-                    binding.allTime.setBackgroundColor(Color.BLACK)
-                    checked = true
-                }
-            }
-        }
-        if (!checked) {
-            binding.week.setOnClickListener {
-                if (!checked) {
-                    binding.week.setBackgroundColor(0xFF00FF00.toInt())
-                    checked = true
-                }
+        val filters = resources.getStringArray(R.array.filters)
+        val spinner: Spinner = binding.spinner
 
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                TODO("Not yet implemented")
             }
-        }
-        if (!checked) {
-            binding.month.setOnClickListener {
-                if (!checked) {
-                    binding.month.setBackgroundColor(0xFF00FF00.toInt())
-                    checked = true
-                }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
             }
 
         }
-        if (!checked) {
-            binding.userDate.setOnClickListener {
-                if (!checked) {
-                    binding.userDate.setBackgroundColor(0xFF00FF00.toInt())
-                    checked = true
-                }
-            }
-        }
+
+//        var checked = false
+//        if (!checked) {
+//            binding.allTime.setOnClickListener {
+//                if (!checked) {
+//                    binding.allTime.setBackgroundColor(R.drawable.button_pressed)
+//                    checked = true
+//                }else
+//                    binding.allTime.setBackgroundColor(R.drawable.button_not_pressed)
+//            }
+//        }
+//        if (!checked) {
+//            binding.week.setOnClickListener {
+//                if (!checked) {
+//                    binding.allTime.setBackgroundColor(R.drawable.button_pressed)
+//                    checked = true
+//                }else
+//                    binding.allTime.setBackgroundColor(R.drawable.button_not_pressed)
+//            }
+//        }
+//        if (!checked) {
+//            binding.month.setOnClickListener {
+//                if (!checked) {
+//                    binding.allTime.setBackgroundColor(R.drawable.button_pressed)
+//                    checked = true
+//                }else
+//                    binding.allTime.setBackgroundColor(R.drawable.button_not_pressed)
+//            }
+//
+//        }
+//        if (!checked) {
+//            binding.userDate.setOnClickListener {
+//                if (!checked) {
+//                    binding.allTime.setBackgroundColor(R.drawable.button_pressed)
+//                    checked = true
+//                }else
+//                    binding.allTime.setBackgroundColor(R.drawable.button_not_pressed)
+//            }
+//        }
 
         binding.backToHistoryFragment.setOnClickListener {
             val fragment = HistoryFragment()

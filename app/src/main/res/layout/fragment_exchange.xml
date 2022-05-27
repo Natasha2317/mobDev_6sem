@@ -14,8 +14,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
-        android:layout_marginLeft="20dp"
-        android:text="Назад"
+        android:layout_marginStart="@dimen/padding_item_currency"
+        android:text="@string/button_back"
         android:backgroundTint="@color/currency_value"
         android:textColor="@color/background"/>
 
@@ -43,7 +43,7 @@
             android:layout_width="144dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="50dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="@dimen/padding_item"
             android:backgroundTint="@color/main_text"
             android:padding="0dp"
             android:textColor="@color/currency_value"
@@ -59,7 +59,7 @@
                 android:layout_height="fill_parent"
                 android:layout_alignParentRight="true"
                 android:src="@drawable/star"
-                android:padding="7dp"
+                android:padding="@dimen/padding_star"
                 />
 
         </RelativeLayout>
@@ -90,7 +90,7 @@
             android:id="@+id/valueSecondCurrency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="@dimen/padding_item_currency"
             android:text="@string/description"
             android:textColor="@color/currency_value"
             android:textSize="@dimen/main_text"
@@ -105,7 +105,7 @@
                 android:layout_height="fill_parent"
                 android:layout_alignParentRight="true"
                 android:src="@drawable/star"
-                android:padding="7dp"
+                android:padding="@dimen/padding_star"
                 />
 
         </RelativeLayout>

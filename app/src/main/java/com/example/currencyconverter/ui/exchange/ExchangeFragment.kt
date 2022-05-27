@@ -1,5 +1,6 @@
 package com.example.currencyconverter.ui.exchange
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import com.example.currencyconverter.R
 import com.example.currencyconverter.data.api.repository.RetrofitRepository
@@ -77,26 +79,39 @@ class ExchangeFragment() : Fragment() {
             binding.rateName1.text = secondName
             binding.rateName.text = firstName
         }else{
-            viewModel.getFavoriteCurrencyList().let { newCurrency ->
-                newCurrency?.forEach { currency ->
-                    if(!secondNameIs){
-                        if (currency.name != firstName){
-                            currentCurrencyUp = currency
-                            secondName = currency.name
-                            secondValue = currency.value
-                            binding.rateName1.text = secondName
-                            if (currency.isFavorite) {
-                                binding.favorite1.setImageResource(R.drawable.star_pressed)
-                            } else {
-                                binding.favorite1.setImageResource(R.drawable.star)
+            if(viewModel.getFavoriteCurrencyList()?.size!! > 0){
+                viewModel.getFavoriteCurrencyList().let { newCurrency ->
+                    newCurrency?.forEach { currency ->
+                        if(!secondNameIs){
+                            if (currency.name != firstName){
+                                currentCurrencyUp = currency
+                                secondName = currency.name
+                                secondValue = currency.value
+                                binding.rateName1.text = secondName
+                                if (currency.isFavorite) {
+                                    binding.favorite1.setImageResource(R.drawable.star_pressed)
+                                } else {
+                                    binding.favorite1.setImageResource(R.drawable.star)
+                                }
+                                secondNameIs = true
                             }
-                            secondNameIs = true
                         }
                     }
                 }
+            }else{
+                if (firstName == "RUB"){
+                    secondName = viewModel.getUsdInfo().name
+                    secondValue = viewModel.getUsdInfo().value
+                    binding.rateName1.text = secondName
+                }else{
+                    secondName = viewModel.getRubInfo().name
+                    secondValue = viewModel.getRubInfo().value
+                    binding.rateName1.text = secondName
+                }
             }
-            binding.rateName.text = firstName
         }
+        binding.rateName.text = firstName
+
 
 
         if (currentCurrency.isFavorite) {
@@ -140,7 +155,6 @@ class ExchangeFragment() : Fragment() {
         })
 
 
-
         binding.backToListFragment.setOnClickListener {
             val fragment = ListFragment()
             val bundle = Bundle()
@@ -150,17 +164,14 @@ class ExchangeFragment() : Fragment() {
                 .commitNow()
         }
 
-
-
     }
 
+    @SuppressLint("SimpleDateFormat")
     fun getCurrentDate(): String {
         val c = Calendar.getInstance()
         val df = SimpleDateFormat("dd-MM-yyyy")
         return df.format(c.time)
     }
-
-
 
 
 }
