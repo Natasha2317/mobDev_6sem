@@ -18,22 +18,29 @@ class MainViewModel(private var realization: RepositoryRealization) : ViewModel(
 //    private val repository: RetrofitRepository = RetrofitRepository()
     private val repository: CurrencyRepository = DependencyInjection.repository
 
-    val data: MutableLiveData<Currencies> by lazy {
+    val data: MutableLiveData<List<Currency>> by lazy {
         MutableLiveData()
     }
 
-
-
-    fun getRetrofitCurrencyList(){
-        viewModelScope.launch(Dispatchers.IO){
-            repository.getRetrofitCurrencyList().let {
-                data.postValue(repository.getRetrofitCurrencyList())
-            }
-        }
-
+    init {
+        getCurrencyList()
     }
 
-    fun getLocalCurrencyList(): MutableList<Currency>{
+
+
+    private fun getRetrofitCurrencyList(){
+        viewModelScope.launch(Dispatchers.IO) {
+            data.postValue(getLocalCurrencyList())
+            repository.getRetrofitCurrencyList().let { remoteCurrencies ->
+                remoteCurrencies?.rates?.map { remoteCurrency ->
+                    updateListCurrency(remoteCurrency){}
+                }
+                data.postValue(getLocalCurrencyList())
+            }
+        }
+    }
+
+    private fun getLocalCurrencyList(): MutableList<Currency>{
         return runBlocking {
             realization.getRoomCurrencyList()
         }
@@ -51,16 +58,36 @@ class MainViewModel(private var realization: RepositoryRealization) : ViewModel(
     fun updateListFavoriteCurrency(currency: Currency, onSuccess:() -> Unit){
         viewModelScope.launch(Dispatchers.IO){
             realization.updateListFavoriteCurrency(currency){
+                val updated = getLocalCurrencyList()
+                data.postValue(updated)
                 onSuccess()
             }
         }
     }
 
-    fun updateListCurrency(currency: Currency, onSuccess:() -> Unit){
+    private fun updateListCurrency(currency: Currency, onSuccess:() -> Unit){
         viewModelScope.launch(Dispatchers.IO){
             realization.updateListCurrency(currency){
                 onSuccess()
             }
+        }
+    }
+
+    fun update(){
+        getRetrofitCurrencyList()
+    }
+
+    private fun getCurrencyList(){
+        return data.postValue(getLocalCurrencyList())
+    }
+
+    fun longClickExchange(currency: Currency){
+        viewModelScope.launch(Dispatchers.IO){
+            val index = getLocalCurrencyList().indexOf(currency)
+            getLocalCurrencyList().removeAt(index)
+            getLocalCurrencyList().add(0, currency)
+            val updated = getLocalCurrencyList()
+            data.postValue(updated)
         }
     }
 }

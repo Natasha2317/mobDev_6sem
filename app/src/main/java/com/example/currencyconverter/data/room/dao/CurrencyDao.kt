@@ -11,7 +11,7 @@ interface CurrencyDao {
 //    fun getRoomCurrencyList(): LiveData<List<Currency>>
 
     // Currencies List
-    @Query("SELECT * FROM currencies")
+    @Query("SELECT * FROM currencies ORDER BY isFavorite DESC")
     suspend fun getRoomCurrencyList(): MutableList<Currency>
 
     @Query("SELECT * FROM currencies WHERE isFavorite = 1")

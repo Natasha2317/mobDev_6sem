@@ -12,8 +12,14 @@ import java.text.DecimalFormat
 
 class CurrencyAdapter(
     private val actionListener: CurrencyActionListener,
-    var currencyItems: MutableList<Currency>
-) : RecyclerView.Adapter<CurrencyAdapter.CurrencyViewHolder>(){
+) : RecyclerView.Adapter<CurrencyAdapter.CurrencyViewHolder>() {
+
+    var currencyItems: List<Currency> = mutableListOf()
+
+    fun setList(list: List<Currency>) {
+        currencyItems = list
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CurrencyViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -24,52 +30,43 @@ class CurrencyAdapter(
     }
 
     override fun onBindViewHolder(holder: CurrencyViewHolder, position: Int) {
-        var currencyItem: Currency = currencyItems[position]
-        with(holder.binding){
+        holder.bind(currencyItems[position])
 
-            rateName.text = currencyItem.name
-            rateValue.text = DecimalFormat("#0.0000").format(currencyItem.value)
-            if (currencyItem.isFavorite) {
-                favorite.setImageResource(R.drawable.star_pressed)
-            } else {
-                favorite.setImageResource(R.drawable.star)
-            }
-
-        }
     }
 
     override fun getItemCount(): Int {
         return currencyItems.size
     }
 
-    inner class CurrencyViewHolder(val binding: ItemCurrencyBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class CurrencyViewHolder(private val binding: ItemCurrencyBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-    fun setList(list: MutableList<Currency>){
-        currencyItems = list
-        notifyDataSetChanged()
-    }
-
-    override fun onViewAttachedToWindow(holder: CurrencyViewHolder) {
-        super.onViewAttachedToWindow(holder)
-        holder.itemView.setOnClickListener {
-            actionListener.currencyExchange(currencyItems[holder.absoluteAdapterPosition])
-        }
-
-        holder.binding.favorite.setOnClickListener {
-            currencyItems[holder.absoluteAdapterPosition].isFavorite = !currencyItems[holder.absoluteAdapterPosition].isFavorite
-            actionListener.onCurrencyFavorite(currencyItems[holder.absoluteAdapterPosition])
-            notifyDataSetChanged()
-
-        }
-
-        holder.itemView.setOnLongClickListener {
-            actionListener.currencyUp(currencyItems[holder.absoluteAdapterPosition])
-            holder.itemView.setOnClickListener {
-                actionListener.currencyUp(currencyItems[holder.absoluteAdapterPosition])
+        fun bind(item: Currency) = binding.run {
+            rateName.text = item.name
+            rateValue.text = DecimalFormat("#0.0000").format(item.value)
+            if (item.isFavorite) {
+                favorite.setImageResource(R.drawable.star_pressed)
+            } else {
+                favorite.setImageResource(R.drawable.star)
             }
-            true
-        }
 
+            root.setOnClickListener {
+                actionListener.currencyExchange(item)
+            }
+
+            favorite.setOnClickListener {
+                actionListener.onCurrencyFavorite(item.copy(isFavorite = !item.isFavorite))
+            }
+
+            root.setOnLongClickListener {
+                actionListener.currencyUp(item)
+                root.setOnClickListener {
+                    actionListener.currencyUp(item)
+                }
+                true
+            }
+        }
     }
+
 
 }

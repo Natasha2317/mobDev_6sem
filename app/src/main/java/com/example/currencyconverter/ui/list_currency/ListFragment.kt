@@ -40,7 +40,6 @@ class ListFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
     private lateinit var adapter: CurrencyAdapter
     private lateinit var recyclerView: RecyclerView
-    private var currencyItems: MutableList<Currency> = mutableListOf()
     lateinit var currentCurrency: Currency
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,12 +66,8 @@ class ListFragment : Fragment() {
 
             override fun currencyUp(currencyUp: Currency) {
                 if (currencyType==0){
-                    var index = currencyItems.indexOf(currencyUp)
-                    currencyItems.removeAt(index)
-                    currencyItems.add(0, currencyUp)
-                    adapter.setList(currencyItems)
+                    viewModel.longClickExchange(currencyUp)
                     bundle.putSerializable("currencyUp", currencyUp)
-                    println(bundle.putSerializable("currencyUp", currencyUp))
                     currencyType = 1
                 }else {
                     bundle.putSerializable("currency", currencyUp)
@@ -83,9 +78,7 @@ class ListFragment : Fragment() {
                 }
 
             }
-        }, currencyItems)
-
-        getLocalCurrencyList()
+        })
 
     }
 
@@ -104,28 +97,11 @@ class ListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.date.text = getCurrentDate()
         binding.updateList.setOnClickListener {
-            viewModel.getRetrofitCurrencyList()
-            viewModel.data.observe(viewLifecycleOwner) { it ->
-                binding.date.text = it.date
-                var rates = it.rates
-                for(item in rates){
-                    viewModel.updateListCurrency(item) {
-                    }
-                }
-                getLocalCurrencyList()
-            }
+            viewModel.update()
         }
 
-    }
-
-    private fun getLocalCurrencyList() {
-
-        viewModel.getLocalCurrencyList().let { newCurrency ->
-            currencyItems.clear()
-            newCurrency.forEach { currency ->
-                currencyItems.add(currency)
-            }
-            adapter.setList(currencyItems)
+        viewModel.data.observe(viewLifecycleOwner) { list ->
+            adapter.setList(list)
         }
     }
 

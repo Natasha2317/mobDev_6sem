@@ -34,17 +34,17 @@ class ExchangeFragment() : Fragment() {
     private lateinit var binding: FragmentExchangeBinding
     private lateinit var viewModel: ExchangeViewModel
     private lateinit var currentCurrency: Currency
-    lateinit var currentCurrencyUp: Currency
-
-
+    lateinit var firstCurrency: Currency
+    private lateinit var secondCurrency: Currency
+    var firstName = ""
+    var firstValue = 1.0000
+    private var secondNameIs = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         val viewModelFactory = ExchangeViewModelFactory(RepositoryInitialization.getRepository(requireContext()))
         viewModel = ViewModelProvider(this, viewModelFactory)[ExchangeViewModel::class.java]
-//        viewModel.init()
 
     }
 
@@ -53,6 +53,8 @@ class ExchangeFragment() : Fragment() {
         binding = FragmentExchangeBinding.inflate(inflater, container, false)
 
         currentCurrency = arguments?.getSerializable("currency") as Currency
+        firstCurrency = currentCurrency
+        firstName = firstCurrency.name
         binding.valueSecondCurrency.text = "1"
 
         return binding.root
@@ -61,10 +63,7 @@ class ExchangeFragment() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var firstName = currentCurrency.name
-        var firstValue = currentCurrency.value
         var secondName = ""
-        var secondNameIs = false
         var secondValue = 1.0000
         var num1 = 1.0000
         var valueSecondCurrency = 1.0000
@@ -72,53 +71,43 @@ class ExchangeFragment() : Fragment() {
 
         if (arguments?.getSerializable("currencyUp") != null){
             var currentCurrencyUp = arguments?.getSerializable("currencyUp") as Currency
-            secondName = currentCurrency.name
-            secondValue = currentCurrency.value
-            firstName = currentCurrencyUp.name
-            firstValue = currentCurrencyUp.value
-            binding.rateName1.text = secondName
-            binding.rateName.text = firstName
+            firstCurrency = currentCurrencyUp
+            firstName = firstCurrency.name
+            firstValue = firstCurrency.value
+            secondCurrency = currentCurrency
+            secondName = secondCurrency.name
+            secondValue = secondCurrency.value
+
         }else{
-            if(viewModel.getFavoriteCurrencyList()?.size!! > 0){
-                viewModel.getFavoriteCurrencyList().let { newCurrency ->
-                    newCurrency?.forEach { currency ->
-                        if(!secondNameIs){
-                            if (currency.name != firstName){
-                                currentCurrencyUp = currency
-                                secondName = currency.name
-                                secondValue = currency.value
-                                binding.rateName1.text = secondName
-                                if (currency.isFavorite) {
-                                    binding.favorite1.setImageResource(R.drawable.star_pressed)
-                                } else {
-                                    binding.favorite1.setImageResource(R.drawable.star)
-                                }
-                                secondNameIs = true
-                            }
-                        }
-                    }
-                }
+            if(getFavoriteCurrencyList()){
+                secondName = secondCurrency.name
+                secondValue = secondCurrency.value
+
             }else{
-                if (firstName == "RUB"){
-                    secondName = viewModel.getUsdInfo().name
-                    secondValue = viewModel.getUsdInfo().value
-                    binding.rateName1.text = secondName
+                secondCurrency = if (firstName == "RUB"){
+                    viewModel.getUsdInfo()
                 }else{
-                    secondName = viewModel.getRubInfo().name
-                    secondValue = viewModel.getRubInfo().value
-                    binding.rateName1.text = secondName
+                    viewModel.getRubInfo()
                 }
+                secondName = secondCurrency.name
+                secondValue = secondCurrency.value
             }
+
         }
+        binding.rateName1.text = secondName
+        if (secondCurrency.isFavorite) {
+            binding.favorite1.setImageResource(R.drawable.star_pressed)
+        } else {
+            binding.favorite1.setImageResource(R.drawable.star)
+        }
+
         binding.rateName.text = firstName
-
-
-
-        if (currentCurrency.isFavorite) {
+        if (firstCurrency.isFavorite) {
             binding.favorite.setImageResource(R.drawable.star_pressed)
         } else {
             binding.favorite.setImageResource(R.drawable.star)
         }
+
         binding.valueFirstCurrency.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
@@ -128,7 +117,6 @@ class ExchangeFragment() : Fragment() {
                     valueSecondCurrency = (firstValue * num1) / secondValue
                     binding.valueSecondCurrency.text = DecimalFormat("#0.0000").format(valueSecondCurrency)
                 }else{
-                    valueSecondCurrency = 1.0000
                     binding.valueSecondCurrency.text = DecimalFormat("#0.0000").format(valueSecondCurrency)
                 }
 
@@ -173,5 +161,19 @@ class ExchangeFragment() : Fragment() {
         return df.format(c.time)
     }
 
-
+    private fun getFavoriteCurrencyList(): Boolean{
+        if(viewModel.getFavoriteCurrencyList()?.size!! >= 1){
+            viewModel.getFavoriteCurrencyList().let { newCurrency ->
+                    newCurrency?.forEach { currency ->
+                        if (!secondNameIs) {
+                            if (currency.name != firstName) {
+                                secondCurrency = currency
+                                secondNameIs = true
+                            }
+                    }
+                }
+            }
+        }
+        return secondNameIs
+    }
 }
