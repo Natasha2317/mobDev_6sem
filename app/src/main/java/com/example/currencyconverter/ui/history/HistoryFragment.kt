@@ -9,17 +9,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.currencyconverter.R
-import com.example.currencyconverter.data.api.repository.RetrofitRepository
 import com.example.currencyconverter.data.room.RepositoryInitialization
 
 import com.example.currencyconverter.databinding.FragmentHistoryBinding
-import com.example.currencyconverter.models.Currency
-import com.example.currencyconverter.models.ExchangeHistory
 import com.example.currencyconverter.ui.filters.FiltersFragment
 import com.example.currencyconverter.ui.history.adapter.ExchangeHistoryAdapter
 import com.example.currencyconverter.ui.history.viewmodel.HistoryViewModel
 import com.example.currencyconverter.ui.history.viewmodel.HistoryViewModelFactory
-import com.example.currencyconverter.ui.list_currency.adapter.CurrencyAdapter
 
 
 class HistoryFragment : Fragment() {
@@ -32,8 +28,6 @@ class HistoryFragment : Fragment() {
     private lateinit var viewModel: HistoryViewModel
     private lateinit var adapter: ExchangeHistoryAdapter
     private lateinit var recyclerView: RecyclerView
-    var exchangeHistoryItems: MutableList<ExchangeHistory> = mutableListOf()
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,9 +35,11 @@ class HistoryFragment : Fragment() {
         val viewModelFactory = HistoryViewModelFactory(RepositoryInitialization.getRepository(requireContext()))
         viewModel = ViewModelProvider(this, viewModelFactory)[HistoryViewModel::class.java]
 
-        adapter = ExchangeHistoryAdapter(exchangeHistoryItems)
-        getExchangeHistory()
+        adapter = ExchangeHistoryAdapter()
 
+        if (arguments?.getString("filter") == "Месяц"){
+            viewModel.getMonthHistory()
+        }
     }
 
     override fun onCreateView(
@@ -66,18 +62,10 @@ class HistoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-    }
-
-    private fun getExchangeHistory() {
-
-        viewModel.getExchangeHistory().let { newExchangeHistory ->
-            exchangeHistoryItems.clear()
-            newExchangeHistory.forEach { item ->
-                exchangeHistoryItems.add(item)
-            }
-            adapter.setList(exchangeHistoryItems)
+        viewModel.data.observe(viewLifecycleOwner) { list ->
+            adapter.setList(list)
         }
     }
+
 
 }

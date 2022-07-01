@@ -18,26 +18,5 @@ class MainActivity : AppCompatActivity() {
                 .add(R.id.container, MainFragment.newInstance())
                 .commitNow()
         }
-
     }
-
-
-
-//        val interceptor = HttpLoggingInterceptor()
-//        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-//        val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
-//
-//        val retrofit = Retrofit.Builder()
-//            .client(client)
-//            .baseUrl("http://data.fixer.io/")
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
-//
-//        val service = retrofit.create(CurrencyApi::class.java)
-
-//        GlobalScope.launch(Dispatchers.IO){
-//            val currencies = service.getCurrencies()
-//            Log.d("MY_TAG", "$currencies")
-//        }
-
 }

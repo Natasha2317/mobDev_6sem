@@ -1,12 +1,7 @@
 package com.example.currencyconverter.data.api
 
-import com.example.currencyconverter.DependencyInjection
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import com.example.currencyconverter.repository.CurrencyRepository
-import com.example.currencyconverter.data.LocalDataSource
-import com.example.currencyconverter.data.RemoteDataSource
-import com.example.currencyconverter.data.api.CurrencyApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 

@@ -3,14 +3,9 @@ package com.example.currencyconverter.models
 import androidx.annotation.NonNull
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
-import com.example.currencyconverter.data.room.converters.DateConverter
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.YearMonth
-import java.util.*
+
 
 @Entity(tableName = "exchange_history")
 data class ExchangeHistory(

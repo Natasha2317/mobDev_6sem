@@ -8,14 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import com.example.currencyconverter.R
-import com.example.currencyconverter.data.api.repository.RetrofitRepository
 import com.example.currencyconverter.data.room.RepositoryInitialization
 import com.example.currencyconverter.databinding.FragmentExchangeBinding
 import com.example.currencyconverter.models.Currency
 import com.example.currencyconverter.models.ExchangeHistory
+import com.example.currencyconverter.repository.LongCurrencyDtoMapper
 import com.example.currencyconverter.ui.exchange.viewmodel.ExchangeViewModel
 import com.example.currencyconverter.ui.exchange.viewmodel.ExchangeViewModelFactory
 import com.example.currencyconverter.ui.list_currency.ListFragment
@@ -40,6 +39,7 @@ class ExchangeFragment() : Fragment() {
     var firstValue = 1.0000
     private var secondNameIs = false
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -55,7 +55,6 @@ class ExchangeFragment() : Fragment() {
         currentCurrency = arguments?.getSerializable("currency") as Currency
         firstCurrency = currentCurrency
         firstName = firstCurrency.name
-        binding.valueSecondCurrency.text = "1"
 
         return binding.root
     }
@@ -69,9 +68,8 @@ class ExchangeFragment() : Fragment() {
         var valueSecondCurrency = 1.0000
         val exchangeHistorySize = viewModel.getExchangeHistory()
 
-        if (arguments?.getSerializable("currencyUp") != null){
-            var currentCurrencyUp = arguments?.getSerializable("currencyUp") as Currency
-            firstCurrency = currentCurrencyUp
+        if (arguments?.getString("currencyUp") != null){
+            firstCurrency = LongCurrencyDtoMapper.mapLongCurrencyToCurrency(viewModel.getLongCurrency())
             firstName = firstCurrency.name
             firstValue = firstCurrency.value
             secondCurrency = currentCurrency
@@ -95,6 +93,7 @@ class ExchangeFragment() : Fragment() {
 
         }
         binding.rateName1.text = secondName
+        binding.valueSecondCurrency.text = "1"
         if (secondCurrency.isFavorite) {
             binding.favorite1.setImageResource(R.drawable.star_pressed)
         } else {

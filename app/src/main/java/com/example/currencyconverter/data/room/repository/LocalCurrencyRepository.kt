@@ -1,8 +1,8 @@
 package com.example.currencyconverter.data.room.repository
 
-import androidx.lifecycle.LiveData
 import com.example.currencyconverter.models.Currency
 import com.example.currencyconverter.models.ExchangeHistory
+import com.example.currencyconverter.models.LongCurrency
 
 interface LocalCurrencyRepository {
 
@@ -18,11 +18,18 @@ interface LocalCurrencyRepository {
     suspend fun updateListCurrency(currency: Currency, onSuccess:() -> Unit)
 
     // Exchange
-    suspend fun addExchangeHistory(exchangeHistory: ExchangeHistory, onSuccess:() -> Unit)
-
-    suspend fun getExchangeHistory(): MutableList<ExchangeHistory>
-
     suspend fun getRubInfo(): Currency
 
     suspend fun getUsdInfo(): Currency
+
+    suspend fun insertLongCurrency(currency: LongCurrency)
+
+    suspend fun updateLongCurrency(currency: LongCurrency)
+
+    suspend fun getLongCurrency(): LongCurrency
+
+    // Exchange history
+    suspend fun addExchangeHistory(exchangeHistory: ExchangeHistory, onSuccess:() -> Unit)
+
+    suspend fun getExchangeHistory(): MutableList<ExchangeHistory>
 }

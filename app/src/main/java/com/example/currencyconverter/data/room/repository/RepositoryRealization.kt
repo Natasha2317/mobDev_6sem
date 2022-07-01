@@ -1,9 +1,9 @@
 package com.example.currencyconverter.data.room.repository
 
-import androidx.lifecycle.LiveData
 import com.example.currencyconverter.data.room.dao.CurrencyDao
 import com.example.currencyconverter.models.Currency
 import com.example.currencyconverter.models.ExchangeHistory
+import com.example.currencyconverter.models.LongCurrency
 
 class RepositoryRealization(private var currencyDao: CurrencyDao): LocalCurrencyRepository {
 
@@ -46,6 +46,18 @@ class RepositoryRealization(private var currencyDao: CurrencyDao): LocalCurrency
 
     override suspend fun getUsdInfo(): Currency {
         return currencyDao.getUsdInfo()
+    }
+
+    override suspend fun insertLongCurrency(currency: LongCurrency) {
+        return currencyDao.insertLongCurrency(currency)
+    }
+
+    override suspend fun updateLongCurrency(currency: LongCurrency) {
+        currencyDao.updateLongCurrency(currency.name,  currency.value, currency.isFavorite)
+    }
+
+    override suspend fun getLongCurrency(): LongCurrency {
+        return currencyDao.getLongCurrency()
     }
 
 }

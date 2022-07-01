@@ -1,33 +1,24 @@
 package com.example.currencyconverter.ui.list_currency
 
 import android.os.Bundle
-import android.text.TextUtils.indexOf
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
-
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.currencyconverter.R
 import com.example.currencyconverter.data.room.RepositoryInitialization
-import com.example.currencyconverter.ui.list_currency.adapter.CurrencyAdapter
 import com.example.currencyconverter.databinding.FragmentListBinding
 import com.example.currencyconverter.models.Currency
 import com.example.currencyconverter.ui.exchange.ExchangeFragment
 import com.example.currencyconverter.ui.list_currency.adapter.CurrencyActionListener
+import com.example.currencyconverter.ui.list_currency.adapter.CurrencyAdapter
 import com.example.currencyconverter.ui.list_currency.viewmodel.MainViewModel
 import com.example.currencyconverter.ui.list_currency.viewmodel.MainViewModelFactory
 import java.text.SimpleDateFormat
-import java.time.DateTimeException
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalDateTime.now
-import java.time.ZoneId
 import java.util.*
-
 
 class ListFragment : Fragment() {
 
@@ -48,9 +39,9 @@ class ListFragment : Fragment() {
         val viewModelFactory = MainViewModelFactory(RepositoryInitialization.getRepository(requireContext()))
         viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
 
+
         val fragment = ExchangeFragment()
         val bundle = Bundle()
-        var currencyType = 0
         adapter = CurrencyAdapter(object: CurrencyActionListener {
             override fun onCurrencyFavorite(currency: Currency) {
                 currentCurrency = currency
@@ -63,20 +54,10 @@ class ListFragment : Fragment() {
                     .add(R.id.container_fragment, fragment)
                     .commitNow()
             }
-
             override fun currencyUp(currencyUp: Currency) {
-                if (currencyType==0){
-                    viewModel.longClickExchange(currencyUp)
-                    bundle.putSerializable("currencyUp", currencyUp)
-                    currencyType = 1
-                }else {
-                    bundle.putSerializable("currency", currencyUp)
-                    fragment.arguments = bundle
-                    parentFragmentManager.beginTransaction()
-                        .add(R.id.container_fragment, fragment)
-                        .commitNow()
-                }
-
+                viewModel.longClickExchange(currencyUp)
+                bundle.putString("currencyUp", "currencyUp")
+                fragment.arguments = bundle
             }
         })
 

@@ -2,16 +2,14 @@ package com.example.currencyconverter.data.room
 
 import android.content.Context
 import androidx.room.*
-import com.example.currencyconverter.data.room.converters.ListConverter
-import com.example.currencyconverter.data.room.converters.MapConverter
 import androidx.room.Database
 import com.example.currencyconverter.data.room.dao.CurrencyDao
 import com.example.currencyconverter.models.Currency
 import com.example.currencyconverter.models.ExchangeHistory
+import com.example.currencyconverter.models.LongCurrency
 
 
-@Database(entities = [Currency::class, ExchangeHistory::class], version = 3, exportSchema = false)
-@TypeConverters(ListConverter::class, MapConverter::class)
+@Database(entities = [Currency::class, ExchangeHistory::class, LongCurrency::class], version = 6, exportSchema = false)
 abstract class CurrencyRoomDatabase : RoomDatabase() {
     abstract fun getCurrencyDao(): CurrencyDao
 

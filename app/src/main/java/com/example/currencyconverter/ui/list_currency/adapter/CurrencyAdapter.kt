@@ -31,7 +31,6 @@ class CurrencyAdapter(
 
     override fun onBindViewHolder(holder: CurrencyViewHolder, position: Int) {
         holder.bind(currencyItems[position])
-
     }
 
     override fun getItemCount(): Int {
@@ -60,9 +59,7 @@ class CurrencyAdapter(
 
             root.setOnLongClickListener {
                 actionListener.currencyUp(item)
-                root.setOnClickListener {
-                    actionListener.currencyUp(item)
-                }
+
                 true
             }
         }

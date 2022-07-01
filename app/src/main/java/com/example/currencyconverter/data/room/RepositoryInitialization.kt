@@ -1,6 +1,5 @@
 package com.example.currencyconverter.data.room
 
-import android.app.Application
 import android.content.Context
 import com.example.currencyconverter.data.room.dao.CurrencyDao
 import com.example.currencyconverter.data.room.repository.RepositoryRealization

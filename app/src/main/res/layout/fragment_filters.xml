@@ -46,42 +46,15 @@
             android:paddingVertical="@dimen/padding_item"
             style="@android:style/Widget.Material.Light.Spinner" />
 
-<!--        <Button-->
-<!--            android:id="@+id/all_time"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="@dimen/height_filters"-->
-<!--            android:text="@string/all_time"-->
-<!--            android:layout_marginEnd="@dimen/main_padding"-->
-<!--            android:background="@drawable/button_not_pressed"-->
-<!--            android:textColor="@color/filters_color"/>-->
-
-<!--        <Button-->
-<!--            android:id="@+id/week"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="@dimen/height_filters"-->
-<!--            android:layout_marginEnd="@dimen/main_padding"-->
-<!--            android:background="@drawable/button_not_pressed"-->
-<!--            android:text="@string/week"-->
-<!--            android:textColor="@color/filters_color"/>-->
-
-<!--        <Button-->
-<!--            android:id="@+id/month"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="@dimen/height_filters"-->
-<!--            android:layout_marginEnd="@dimen/main_padding"-->
-<!--            android:background="@drawable/button_not_pressed"-->
-<!--            android:text="@string/month"-->
-<!--            android:textColor="@color/filters_color"/>-->
-
-<!--        <Button-->
-<!--            android:id="@+id/user_date"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="@dimen/height_filters"-->
-<!--            android:background="@drawable/button_not_pressed"-->
-<!--            android:text="@string/user_date"-->
-<!--            android:textColor="@color/filters_color"/>-->
-
     </LinearLayout>
-
+    <Button
+        android:id="@+id/bnt_filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_currency_name"
+        android:layout_gravity="center"
+        android:background="@drawable/button_not_pressed"
+        android:text="Применить"
+        android:textColor="@color/filters_color"/>
 
 </LinearLayout>

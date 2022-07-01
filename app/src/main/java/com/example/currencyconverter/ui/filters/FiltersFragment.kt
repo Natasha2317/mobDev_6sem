@@ -6,9 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Spinner
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.currencyconverter.R
@@ -27,7 +25,6 @@ class FiltersFragment : Fragment() {
     }
     private lateinit var binding: FragmentFiltersBinding
     private lateinit var viewModel: FiltersViewModel
-    private val filtersList: List<String> = listOf("Все время", "Месяц", "Неделя", "Выбрать")
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +45,6 @@ class FiltersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val filters = resources.getStringArray(R.array.filters)
         val spinner: Spinner = binding.spinner
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
@@ -58,53 +54,21 @@ class FiltersFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                TODO("Not yet implemented")
+                var filter = parent?.getItemAtPosition(position).toString()
+                val fragment = HistoryFragment()
+                val bundle = Bundle()
+                bundle.putString("filter", filter)
+                fragment.arguments = bundle
+                binding.bntFilter.setOnClickListener {
+                    parentFragmentManager.beginTransaction()
+                        .replace(R.id.container_fragment, fragment)
+                        .commitNow()
+                }
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
 
         }
-
-//        var checked = false
-//        if (!checked) {
-//            binding.allTime.setOnClickListener {
-//                if (!checked) {
-//                    binding.allTime.setBackgroundColor(R.drawable.button_pressed)
-//                    checked = true
-//                }else
-//                    binding.allTime.setBackgroundColor(R.drawable.button_not_pressed)
-//            }
-//        }
-//        if (!checked) {
-//            binding.week.setOnClickListener {
-//                if (!checked) {
-//                    binding.allTime.setBackgroundColor(R.drawable.button_pressed)
-//                    checked = true
-//                }else
-//                    binding.allTime.setBackgroundColor(R.drawable.button_not_pressed)
-//            }
-//        }
-//        if (!checked) {
-//            binding.month.setOnClickListener {
-//                if (!checked) {
-//                    binding.allTime.setBackgroundColor(R.drawable.button_pressed)
-//                    checked = true
-//                }else
-//                    binding.allTime.setBackgroundColor(R.drawable.button_not_pressed)
-//            }
-//
-//        }
-//        if (!checked) {
-//            binding.userDate.setOnClickListener {
-//                if (!checked) {
-//                    binding.allTime.setBackgroundColor(R.drawable.button_pressed)
-//                    checked = true
-//                }else
-//                    binding.allTime.setBackgroundColor(R.drawable.button_not_pressed)
-//            }
-//        }
 
         binding.backToHistoryFragment.setOnClickListener {
             val fragment = HistoryFragment()
